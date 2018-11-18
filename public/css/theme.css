@@ -955,8 +955,19 @@ span.wish-list-count {
 .customer-setting-details .btn.btn-success {
     background-color: var(--emerald);
 }
-.reset-password-txt{
+
+.reset-password-txt {
     display: block;
     margin-bottom: 10px;
     padding-left: 15px;
+}
+
+h1.sent-email-success {
+    text-align: center;
+    font-family: 'Raleway', sans-serif;
+    font-size: 25px;
+    font-weight: 500;
+    color: var(--green);
+    display: block;
+    margin: 20px 0 150px 0;
 }

@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers\FrontEnd;
 
-use App\Models\Customer;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
@@ -44,24 +43,5 @@ class CustomerController extends Controller
 
     }
 
-    public function passwordReset()
-    {
-        return view('frontEnd.customer.passwordReset');
-    }
 
-    public function passwordResetEmail(Request $request)
-    {
-        $this->validate($request, [
-            'email' => 'required|email'
-        ]);
-        $email = $request->get('email');
-        if (!$this->emailExists($email)) {
-            return redirect()->back()->with('failure', 'this email is not exists');
-        }
-    }
-
-    private function emailExists($email)
-    {
-        return Customer::where('email', $email)->count();
-    }
 }

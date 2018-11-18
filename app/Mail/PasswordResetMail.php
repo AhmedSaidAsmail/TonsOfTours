@@ -3,30 +3,30 @@
 namespace App\Mail;
 
 use Illuminate\Bus\Queueable;
-use Illuminate\Http\Request;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Contracts\Queue\ShouldQueue;
+use Illuminate\Support\Facades\App;
 
 class PasswordResetMail extends Mailable
 {
     use Queueable, SerializesModels;
     private $sender;
-    private $old_password;
+    private $unique_id;
     private $customer_email;
 
     /**
      * Create a new message instance.
      *
      * @param string $sender Sender mail
-     * @param string $old_password Current Password
+     * @param string $unique_id
      * @param string $customer_email
      * @return void
      */
-    public function __construct($sender, $old_password, $customer_email)
+    public function __construct($sender, $unique_id, $customer_email)
     {
         $this->sender = $sender;
-        $this->old_password = $old_password;
+        $this->unique_id = $unique_id;
         $this->customer_email = $customer_email;
     }
 
@@ -37,11 +37,12 @@ class PasswordResetMail extends Mailable
      */
     public function build()
     {
-        return $this->subject(Request::getHost() . 'Reset Password')
-            ->from($this->sender, 'Reset Password')
+        $host = App::make('request')->getHttpHost();
+        return $this->subject(sprintf('%s: Password Reset', $host))
+            ->from($this->sender, sprintf('%s: Password Reset', $host))
             ->view('frontEnd.customer.resetPasswordMail')
             ->with([
-                'old_password' => $this->old_password,
+                'unique_id' => $this->unique_id,
                 'customer_email' => $this->customer_email
             ]);
     }

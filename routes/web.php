@@ -28,7 +28,7 @@ Route::get('/topics/{topicsName}', ['uses' => 'Web\HomeController@topicsShow'])-
 //Route::get('/booking-done', ['uses' => 'Web\HomeController@bookingDone'])->name('bookingDone');
 //Route::get('/getDays/{id}', ['uses' => 'Web\HomeController@getDays'])->name('getDays');
 //Route::get('/hotDeals', ['uses' => 'Web\HomeController@hotDealsShow'])->name('hotDeals');
-Route::get('/transfer', ['uses' => 'Web\HomeController@transferShow'])->name('transfersShow');
+//Route::get('/transfer', ['uses' => 'Web\HomeController@transferShow'])->name('transfersShow');
 // customer login
 Route::get('/customer/register', 'AuthCustomer\RegisterController@showRegistrationForm')->name('customer.register');
 Route::post('/customer/register', 'AuthCustomer\RegisterController@register')->name('customer.register');
@@ -42,13 +42,12 @@ Route::group(['middleware' => 'auth:customer'], function () {
     Route::put('/customer/password', 'FrontEnd\CustomerController@updatePassword')->name('customer.password');
     Route::get('/customer/bookings', 'FrontEnd\CustomerController@showbookings')->name('customer.booking');
 });
-Route::get('/customer/password/reset', 'FrontEnd\CustomerController@passwordReset')->name('customer.password.reset');
-Route::post('/customer/password/reset', 'FrontEnd\CustomerController@passwordResetEmail')->name('customer.password.reset');
+Route::get('/customer/password/reset', 'AuthCustomer\ResetPasswordController@passwordReset')->name('customer.password.reset');
+Route::post('/customer/password/reset', 'AuthCustomer\ResetPasswordController@passwordResetEmail')->name('customer.password.reset');
+Route::get('/customer/password/reset/success/{email}/{token}', 'AuthCustomer\ResetPasswordController@passwordResetEmailSuccess')->name('customer.password.reset.success');
+Route::get('/customer/password/reset/email/{email}/{unique_id}', 'AuthCustomer\ResetPasswordController@emailBack')->name('customer.password.email.back');
 
 
-Route::get('/profile/password/reset/success', 'Auth_Customer\ProfileController@resetSuccess')->name('customer.password.reset.success');
-Route::get('/profile/password/reset/email/{email}/{token}/{session_time}', 'Auth_Customer\ProfileController@resetPasswordBack')->name('customer.password.reset.back');
-Route::put('/profile/password/reset/final', 'Auth_Customer\ProfileController@resetPasswordFinal')->name('customer.password.reset.final');
 Route::get('/profile/my-bookings', 'Auth_Customer\ProfileController@bookings')->name('customer.bookings');
 Route::get('/profile/my-bookings/items/{reservation_id}', 'Auth_Customer\ProfileController@bookingsItems')->name('customer.bookings.items');
 // end customers login
@@ -57,7 +56,6 @@ Route::get('/profile/my-bookings/items/{reservation_id}', 'Auth_Customer\Profile
 
 
 Route::get('/login', 'Auth\LoginController@showLoginForm');
-//Auth::routes('/register', 'Auth\RegisterController@showRegistrationForm');
 Route::get('/logout', 'Auth\LoginController@logout')->name('logout');
 Route::group(['prefix' => 'admin', 'middleware' => 'auth:web'], function () {
     Route::get('', function () {

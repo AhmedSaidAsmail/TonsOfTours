@@ -30,6 +30,16 @@ if (!function_exists('categoriesAll')) {
         return Category::all();
     }
 }
+if (!function_exists('topTours')) {
+    function topTours()
+    {
+        return Item::where('recommended', 1)
+            ->where('status', 1)
+            ->orderBy('arrangement')
+            ->limit(6)
+            ->get();
+    }
+}
 if (!function_exists('translate')) {
     function translate($word)
     {
@@ -75,7 +85,7 @@ if (!function_exists('facebookLink')) {
 if (!function_exists('wishListsCount')) {
     function wishListsCount()
     {
-        $wishList=new WishList();
+        $wishList = new WishList();
         return count($wishList->all());
     }
 }
