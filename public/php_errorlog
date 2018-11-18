@@ -1,0 +1,2 @@
+[27-Sep-2017 18:07:18 CST6CDT] PHP Fatal error:  require(): Failed opening required '/home/ahmeds15/public_html/egyptalltours.com/public/../bootstrap/autoload.php' (include_path='.:/usr/local/php56/pear') in /home/ahmeds15/public_html/egyptalltours.com/public/index.php on line 22
+[27-Sep-2017 18:10:55 CST6CDT] PHP Fatal error:  require(): Failed opening required '/home/ahmeds15/public_html/egyptalltours.com/public/../bootstrap/autoload.php' (include_path='.:/usr/local/php56/pear') in /home/ahmeds15/public_html/egyptalltours.com/public/index.php on line 22
