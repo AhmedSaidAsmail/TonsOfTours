@@ -3,7 +3,6 @@
 namespace App\Src\Images;
 
 use App\Src\Images\Exception\PathException;
-use App\Src\Images\Exception\WidthException;
 use Illuminate\Http\Request;
 
 class Image
@@ -25,14 +24,19 @@ class Image
      */
     private $current_img = null;
     /**
-     * @var string $uploaded_img Uploading Image Name
+     * @var UploadImages|null $upload
      */
-    private $uploaded_img = null;
+    private $upload_contract = null;
+    /**
+     * @var RemoveImage $remove
+     */
+    private $remove_contract;
 
     public function __construct(Request $request)
     {
         $this->request = $request;
         $this->setPath()->setWidths()->setCurrentImage();
+        $this->remove_contract = new RemoveImage($this->path);
     }
 
     /**
@@ -42,12 +46,10 @@ class Image
      */
     private function setPath()
     {
-        if ($this->request->exists('path') && !is_null($this->request->get('path'))) {
+        if ($this->request->has('path')) {
             $this->path = $this->request->get('path');
-            return $this;
         }
-        throw new PathException('The Request path key is not exists');
-
+        return $this;
     }
 
     /**
@@ -57,27 +59,13 @@ class Image
      */
     private function setWidths()
     {
-        if ($this->request->exists('widths')) {
-            $width = $this->request->get('widths');
-            $this->checkWidths($width);
-            $this->widths = $width;
+        if ($this->request->has('widths')) {
+            $this->widths = $this->request->get('widths');
         }
         return $this;
 
     }
 
-    /**
-     * Checking given widths is array and not null
-     *
-     * @param array $widths
-     */
-    private function checkWidths($widths)
-    {
-        if (!is_array($widths) || empty($widths)) {
-            throw new WidthException('Given Request widths is not an array or empty');
-        }
-
-    }
 
     /**
      * Setting the current image if exists
@@ -86,50 +74,63 @@ class Image
      */
     private function setCurrentImage()
     {
-        if ($this->request->exists('current')) {
+        if ($this->request->has('current')) {
             $this->current_img = $this->request->get('current');
         }
 
     }
 
     /**
+     * Uploading new image and deleting the current image
+     *
      * @param array $data
+     * @param string $key
      * @throws PathException
      * @return void
      */
 
-    public function upload(array &$data)
+    public function upload(array &$data, $key = 'img')
     {
         if ($this->request->hasFile('img')) {
-            $this->uploaded_img = (new UploadImages($this->request->file('img'), $this->path, $this->widths))
-                ->upload();
-            $this->checkCurrent();
-
-            $data['img'] = $this->uploaded_img;
+            $this->upload_contract = new UploadImages($this->request->file('img'), $this->path, $this->widths);
+            $data[$key] = $this->upload_contract->upload();
+            $this->deleteCurrentImage();
         }
 
 
     }
 
     /**
-     * Checking current file exists for replacing
+     * Deleting current image
      *
      */
-    private function checkCurrent()
+    private function deleteCurrentImage()
     {
         if (!is_null($this->current_img)) {
-            $this->remove($this->current_img);
+            $this->remove_contract->remove($this->current_img);
         }
     }
 
     /**
-     * Removing Image
+     * Rolling back the uploaded image
      *
-     * @param string $img
+     */
+    public function rollback()
+    {
+        if (!is_null($this->upload_contract)) {
+            $this->remove_contract->remove($this->upload->getCurrentImage());
+        }
+    }
+
+    /**
+     * Removing image
+     *
+     * @param $img
      */
     public function remove($img)
     {
-        (new RemoveImage($this->path, $img))->remove();
+        $this->remove_contract->remove($img);
     }
+
 
 }

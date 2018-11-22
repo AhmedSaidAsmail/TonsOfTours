@@ -64,7 +64,7 @@ if (!function_exists('itemValueResolve')) {
     function itemValueResolve($attr, Item $item = null, $hasOne = null)
     {
         if (!is_null($item)) {
-            return !is_null($hasOne) ? $item->{$attr}->{$hasOne} : $item->{$attr};
+            return !is_null($hasOne) && !is_null($item->{$attr}) ? $item->{$attr}->{$hasOne} : $item->{$attr};
         }
         return null;
 

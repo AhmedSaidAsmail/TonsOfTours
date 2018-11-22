@@ -56,12 +56,18 @@
                         <li>
                             <i class="far fa-comment-alt"></i> Offered in: English and other
                         </li>
-                        <li>
-                            <i class="far fa-clock"></i> 11 hours (Approx)
-                        </li>
-                        <li>
-                            <i class="fas fa-bus-alt"></i> Pick-up service
-                        </li>
+                        @if(!is_null($item->details))
+                            @if(!is_null($item->details->duration))
+                                <li>
+                                    <i class="far fa-clock"></i> {{$item->details->duration}}
+                                </li>
+                            @endif
+                            @if(!is_null($item->details->transfer))
+                                <li>
+                                    <i class="fas fa-bus-alt"></i> Pick-up service
+                                </li>
+                            @endif
+                        @endif
                         <li>
                             <i class="fas fa-credit-card"></i> Cancellation: up 2 Days
                         </li>
@@ -189,11 +195,11 @@
             });
         });
         $("a#scrollTo").on('click', function (event) {
-            let scrollTo=$(this).attr('href');
+            let scrollTo = $(this).attr('href');
             event.preventDefault();
             $('html, body').animate({
-                scrollTop:($(scrollTo).offset().top - 100)
-            },500)
+                scrollTop: ($(scrollTo).offset().top - 100)
+            }, 500)
         });
     </script>
 @endsection

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Models\Item;
@@ -59,13 +60,14 @@ class ItemsController extends Controller
             $item = Item::create($data);
             $item->exploration()->create($data['item']['exploration']);
             $item->price()->create($data['item']['price']);
+            $this->itemDetailsResolver($item,'details',$data['details']);
             $this->itemCreateMany($item->includes(), $data['item'], 'includes');
             $this->itemCreateMany($item->excludes(), $data['item'], 'excludes');
             $this->itemCreateMany($item->packages(), $data['item'], 'packages');
             DB::commit();
         } catch (\Exception $e) {
             DB::rollback();
-            $imgResolver->remove($data['img']);
+            $imgResolver->rollback();
             return redirect()->route('item.index')->with([
                 'alert' => 'Data Unsuccessful Stored',
                 'alertType' => 'alert-danger',
@@ -88,6 +90,7 @@ class ItemsController extends Controller
     {
         $item = Item::find($id);
         return view('Admin._items.itemsEdit', ['item' => $item, 'active' => 'item']);
+//        dd($item->price);
     }
 
     /**
@@ -109,13 +112,14 @@ class ItemsController extends Controller
             $item->update($data);
             $item->exploration()->update($data['item']['exploration']);
             $item->price()->update($data['item']['price']);
+            $this->itemDetailsResolver($item,'details',$data['details']);
             syncHasMany($item->includes(), $data['item'], 'includes')->exec();
             syncHasMany($item->excludes(), $data['item'], 'excludes')->exec();
             syncHasMany($item->packages(), $data['item'], 'packages')->exec();
             DB::commit();
         } catch (\Exception $e) {
             DB::rollback();
-            $imgResolver->remove($data['img']);
+            $imgResolver->rollback();
             return redirect()->route('item.index')->with([
                 'alert' => 'Data Unsuccessful Stored',
                 'alertType' => 'alert-danger',
@@ -227,6 +231,17 @@ class ItemsController extends Controller
         }
 
         return $return;
+    }
+
+    private function itemDetailsResolver(Item $item, $details, array $data)
+    {
+        /** @var HasOne $hasOne */
+        $hasOne = $item->{$details}();
+        if (!is_null($item->{$details})) {
+            $hasOne->update($data);
+        } else {
+            $hasOne->create($data);
+        }
     }
 
 }

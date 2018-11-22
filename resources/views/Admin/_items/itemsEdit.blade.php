@@ -43,6 +43,7 @@
                                     <li><a data-toggle="tab" href="#excludes">Excludes</a></li>
                                     <li><a data-toggle="tab" href="#price">Price</a></li>
                                     <li><a data-toggle="tab" href="#pricePackages">Price Packages</a></li>
+                                    <li><a data-toggle="tab" href="#details">Details</a></li>
                                 </ul>
 
                                 <div class="tab-content">
@@ -64,12 +65,15 @@
                                     {{-- Price Packages--}}
                                     @include('Admin._items.layouts._itemsPricePackages')
                                     {{-- Price Packages--}}
+                                    {{-- Price Details--}}
+                                    @include('Admin._items.layouts._itemsDetails')
+                                    {{-- Price Details--}}
                                 </div>
                             </div>
                         </div>
                         <div class="row">
                             <div class="col-md-12">
-                                <button class="btn btn-success btn-block">Insert Item</button>
+                                <button class="btn btn-success btn-block">Update Item</button>
                             </div>
                         </div>
                     </form>

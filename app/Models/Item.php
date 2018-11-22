@@ -4,7 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Item extends Model
+class Item extends Model implements ProductInterface
 {
     protected $fillable = [
         'category_id',
@@ -22,6 +22,11 @@ class Item extends Model
     public function category()
     {
         return $this->belongsTo(Category::class, 'category_id');
+    }
+
+    public function details()
+    {
+        return $this->hasOne(ItemsDetail::class);
     }
 
     public function price()
@@ -57,6 +62,7 @@ class Item extends Model
     public function delete()
     {
         $this->price()->delete();
+        $this->details()->delete();
         $this->packages()->delete();
         $this->exploration()->delete();
         $this->includes()->delete();

@@ -41,6 +41,7 @@
                                     <li><a data-toggle="tab" href="#excludes">Excludes</a></li>
                                     <li><a data-toggle="tab" href="#price">Price</a></li>
                                     <li><a data-toggle="tab" href="#pricePackages">Price Packages</a></li>
+                                    <li><a data-toggle="tab" href="#details">Details</a></li>
                                 </ul>
 
                                 <div class="tab-content">
@@ -62,6 +63,9 @@
                                     {{-- Price Packages--}}
                                     @include('Admin._items.layouts._itemsPricePackages')
                                     {{-- Price Packages--}}
+                                    {{-- Price Details--}}
+                                    @include('Admin._items.layouts._itemsDetails')
+                                    {{-- Price Details--}}
                                 </div>
                             </div>
                         </div>
@@ -80,7 +84,7 @@
     <link rel="stylesheet" type="text/css" href="{{asset('css/admin/TextEditor/lib/css/bootstrap.min.css')}}"/>
     <link rel="stylesheet" type="text/css" href="{{asset('css/admin/TextEditor/lib/css/prettify.css')}}"/>
     <link rel="stylesheet" type="text/css" href="{{asset('css/admin/TextEditor/src/bootstrap-wysihtml5.css')}}"/>
-    <link rel="stylesheet" href="{{asset('adminlte/plugins/select2/select2.min.css')}}">
+    <link rel="stylesheet" href="{{asset('admin_resources/plugins/select2/select2.min.css')}}">
     <style>
         .select2-container--default .select2-selection--single {
             border-radius: 0;
@@ -101,7 +105,7 @@
     <script src="{{asset('css/admin/TextEditor/lib/js/prettify.js')}}"></script>
     <script src="{{asset('css/admin/TextEditor/lib/js/highlight/highlight.pack.js')}}"></script>
     <script src="{{asset('css/admin/TextEditor/src/bootstrap-wysihtml5.js')}}"></script>
-    <script src="{{asset('adminlte/plugins/select2/select2.full.min.js')}}"></script>
+    <script src="{{asset('admin_resources/plugins/select2/select2.full.min.js')}}"></script>
     <script>
         $('.text-area').wysihtml5({
             "stylesheets": ["{{asset('css/admin/TextEditor/lib/css/wysiwyg-color.css')}}", "{{asset('css/admin/TextEditor/lib/css/highlight/github.css')}}"],

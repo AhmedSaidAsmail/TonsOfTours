@@ -101,7 +101,8 @@ if (!$is_wish_list) {
     <script>
         $(".tour-date").datepicker({
             minDate: new Date(),
-            dateFormat: 'DD, M dd, yyyy'
+            dateFormat: 'DD, M dd, yyyy',
+            autoClose: true,
         });
         $(function () {
             $(".date-click").on('click', function () {

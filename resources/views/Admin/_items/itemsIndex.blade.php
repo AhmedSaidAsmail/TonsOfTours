@@ -1,7 +1,7 @@
 @extends('Admin.Layouts._master')
 @section('title','Items Panel')
 @section ('Extra_Css')
-    <link rel="stylesheet" href="{{asset('adminlte/plugins/datatables/dataTables.bootstrap.css')}}">
+    <link rel="stylesheet" href="{{asset('admin_resources/plugins/datatables/dataTables.bootstrap.css')}}">
     <link rel="stylesheet" type="text/css" href="{{asset('css/admin/style.css')}}">
     <style>
         .remove-button {
@@ -119,8 +119,8 @@
 @endsection
 @section('Extra_Js')
     <script src="{{asset('js/admin/admin.js')}}"></script>
-    <script src="{{asset('adminlte/plugins/datatables/jquery.dataTables.min.js')}}"></script>
-    <script src="{{asset('adminlte/plugins/datatables/dataTables.bootstrap.min.js')}}"></script>
+    <script src="{{asset('admin_resources/plugins/datatables/jquery.dataTables.min.js')}}"></script>
+    <script src="{{asset('admin_resources/plugins/datatables/dataTables.bootstrap.min.js')}}"></script>
     <script>
         $(function () {
             $("#example1").DataTable();

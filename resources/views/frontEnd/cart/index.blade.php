@@ -31,12 +31,21 @@
                                     </a>
                                 </div>
                                 <div class="cart-item-price">
-                                    {{$item->currency}}{{sprintf('%.2f',$item->total)}}
+                                    <sub>
+                                        <span>Total:</span> {{$item->currency}}{{sprintf('%.2f',$item->total)}}
+                                    </sub>
+                                    <sub>
+                                        @if($item->deposit>0)
+                                            <span>Deposit Due:</span> {{$item->currency}}{{sprintf('%.2f',$item->deposit)}}
+                                        @else
+                                            <span>No Deposit</span>
+                                        @endif
+                                    </sub>
                                 </div>
                                 <div class="col-md-2">
                                     <div class="item-card-img">
-                                        <img src="{{asset('images/items/thumbSm/'.$item->model()->img)}}"
-                                             class="aspect-img" alt="{{$item->model()->title}}">
+                                        <img src="{{asset('images/items/thumbSm/'.$item->model->img)}}"
+                                             class="aspect-img" alt="{{$item->model->title}}">
                                     </div>
                                 </div>
                                 <div class="col-md-10 cart-details">
@@ -76,6 +85,10 @@
                         <span class="cart-header-total">
                             Total ({{$cart->qty}} items):
                             <label>{{translate('$')}}{{sprintf('%.2f',$cart->total)}}</label>
+                        </span>
+                        <span class="cart-header-total">
+                            Total Deposit:
+                            <label>{{translate('$')}}{{sprintf('%.2f',$cart->deposit)}}</label>
                         </span>
                         <span>No additional fees.</span>
                         <a href="{{route('cart.checkout')}}"

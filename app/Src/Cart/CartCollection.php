@@ -30,6 +30,10 @@ class CartCollection
      */
     public $total = 0;
     /**
+     * @var int $deposit Deposit due for all products
+     */
+    public $deposit=0;
+    /**
      * Number of how many carts there are
      *
      * @var int $qty

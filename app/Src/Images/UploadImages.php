@@ -39,7 +39,6 @@ class UploadImages
         $this->widths = $widths;
 
     }
-
     /**
      * @return mixed
      * @throws PathException
@@ -53,6 +52,10 @@ class UploadImages
 
     }
 
+    public function getCurrentImage()
+    {
+        return $this->name;
+    }
 
     private function exec()
     {

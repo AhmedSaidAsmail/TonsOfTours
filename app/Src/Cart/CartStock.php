@@ -8,7 +8,7 @@ class CartStock
     /**
      * Holding carts
      *
-     * @var CartInterface[] $carts
+     * @var Product[] $carts
      */
     public $carts = [];
     /**
@@ -17,6 +17,10 @@ class CartStock
      * @var int $total
      */
     public $total = 0;
+    /**
+     * @var int $deposit Deposit due for all products
+     */
+    public $deposit = 0;
     /**
      * Number of how many carts there are
      *
@@ -27,18 +31,18 @@ class CartStock
     /**
      * Adding Cart object
      *
-     * @param CartInterface $cart
+     * @param Product $cart
      * @param CartCollection $collection
      * @return CartCollection $collection
      */
-    public function add(CartInterface $cart, CartCollection $collection)
+    public function add(Product $cart, CartCollection $collection)
     {
         $key = spl_object_hash($cart);
         $this->carts[$key] = $cart;
-        $total = $cart->getTotal();
-        $this->total += $total;
+        $this->total += $cart->total;
+        $this->deposit += $cart->deposit;
         $this->qty++;
-        return $this->updateCollection($collection, $total);
+        return $this->updateCollection($collection, $cart->total, $cart->deposit);
 
     }
 
@@ -53,11 +57,11 @@ class CartStock
     {
         if (array_key_exists($key, $this->carts)) {
             $cart = $this->carts[$key];
-            $total = $cart->getTotal();
-            $this->total -= $total;
+            $this->total -= $cart->total;
+            $this->deposit -= $cart->deposit;
             --$this->qty;
             unset($this->carts[$key]);
-            return $this->updateRemovingCollection($collection, $total);
+            return $this->updateRemovingCollection($collection, $cart->total, $cart->deposit);
 
         }
     }
@@ -76,11 +80,13 @@ class CartStock
     /**
      * @param CartCollection $collection
      * @param int $total
+     * @param int $deposit
      * @return CartCollection
      */
-    private function updateCollection(CartCollection $collection, $total)
+    private function updateCollection(CartCollection $collection, $total, $deposit)
     {
         $collection->total += $total;
+        $collection->deposit += $deposit;
         $collection->qty++;
         return $collection;
     }
@@ -88,11 +94,13 @@ class CartStock
     /**
      * @param CartCollection $collection
      * @param $total
+     * @param int $deposit
      * @return CartCollection
      */
-    private function updateRemovingCollection(CartCollection $collection, $total)
+    private function updateRemovingCollection(CartCollection $collection, $total, $deposit)
     {
         $collection->total -= $total;
+        $collection->deposit -= $deposit;
         --$collection->qty;
         return $collection;
     }

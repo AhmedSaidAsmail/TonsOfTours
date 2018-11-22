@@ -46,7 +46,7 @@ class CategoriesController extends Controller
         try {
             Category::create($data);
         } catch (\Exception $e) {
-            $imgResolver->remove($data['img']);
+            $imgResolver->rollback();
             return redirect()->back()->with([
                 'alert' => 'Data Unsuccessful Stored',
                 'alertType' => 'alert-danger',
@@ -92,7 +92,7 @@ class CategoriesController extends Controller
         try {
             $category->update($data);
         } catch (\Exception $e) {
-            $imgResolver->remove($data['img']);
+            $imgResolver->rollback();
             return redirect()->back()->with([
                 'alert' => 'Data Unsuccessful Stored',
                 'alertType' => 'alert-danger',

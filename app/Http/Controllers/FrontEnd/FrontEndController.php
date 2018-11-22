@@ -74,13 +74,15 @@ class FrontEndController extends Controller
 
     public function itemShow($category, $name, $id)
     {
-        $item = Item::findOrFail($id);
-        $wishList = new WishList();
-        return view('frontEnd.item', [
-            'categoryName' => $category,
-            'name' => $name,
-            'item' => $item,
-            'is_wish_list' => $wishList->check($id)
-        ]);
+        $ipDetctor=new \App\Src\SiteVisitor\Visitor();
+        dd($ipDetctor->detect());
+//        $item = Item::findOrFail($id);
+//        $wishList = new WishList();
+//        return view('frontEnd.item', [
+//            'categoryName' => $category,
+//            'name' => $name,
+//            'item' => $item,
+//            'is_wish_list' => $wishList->check($id)
+//        ]);
     }
 }

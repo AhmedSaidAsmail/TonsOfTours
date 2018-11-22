@@ -49,13 +49,14 @@ Route::get('/customer/password/reset/email/{email}/{unique_id}', 'AuthCustomer\R
 
 
 Route::get('/profile/my-bookings', 'Auth_Customer\ProfileController@bookings')->name('customer.bookings');
-Route::get('/profile/my-bookings/items/{reservation_id}', 'Auth_Customer\ProfileController@bookingsItems')->name('customer.bookings.items');
+//Route::get('/profile/my-bookings/items/{reservation_id}', 'Auth_Customer\ProfileController@bookingsItems')->name('customer.bookings.items');
 // end customers login
 
 //Route::get('images/update','Admin\ImagesController@update');
 
 
-Route::get('/login', 'Auth\LoginController@showLoginForm');
+Route::get('/login', 'Auth\LoginController@showLoginForm')->name('login');
+Route::post('/login', 'Auth\LoginController@login')->name('login');
 Route::get('/logout', 'Auth\LoginController@logout')->name('logout');
 Route::group(['prefix' => 'admin', 'middleware' => 'auth:web'], function () {
     Route::get('', function () {
@@ -83,5 +84,5 @@ Route::group(['prefix' => 'admin', 'middleware' => 'auth:web'], function () {
     Route::resource('/Reservation', 'Admin\ReservationController');
 });
 
-Auth::routes();
+//Auth::routes();
 

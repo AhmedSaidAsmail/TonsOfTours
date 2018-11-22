@@ -5,11 +5,11 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <title>Admin C-Panel | @yield('title')</title>
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
-    <link rel="stylesheet" href="{{asset('adminlte/bootstrap/css/bootstrap.min.css')}}">
+    <link rel="stylesheet" href="{{asset('css/bootstrap.min.css')}}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.5.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/ionicons/2.0.1/css/ionicons.min.css">
-    <link rel="stylesheet" href="{{asset('adminlte/dist/css/AdminLTE.min.css')}}">
-    <link rel="stylesheet" href="{{asset('adminlte/dist/css/skins/_all-skins.min.css')}}">
+    <link rel="stylesheet" href="{{asset('admin_resources/dist/css/AdminLTE.min.css')}}">
+    <link rel="stylesheet" href="{{asset('admin_resources/dist/css/skins/_all-skins.min.css')}}">
     @yield('Extra_Css')
 </head>
 <body class="hold-transition skin-black-light sidebar-mini">
@@ -164,11 +164,11 @@
     <!-- end footer -->
     <div class="control-sidebar-bg"></div>
 </div>
-<script src="{{asset('adminlte/plugins/jQuery/jquery-2.2.3.min.js')}}"></script>
-<script src="{{asset('adminlte/bootstrap/js/bootstrap.min.js')}}"></script>
-<script src="{{asset('adminlte/plugins/slimScroll/jquery.slimscroll.min.js')}}"></script>
-<script src="{{asset('adminlte/plugins/fastclick/fastclick.js')}}"></script>
-<script src="{{asset('adminlte/dist/js/app.min.js')}}"></script>
+<script src="{{asset('js/jquery-2.2.3.min.js')}}"></script>
+<script src="{{asset('js/bootstrap.min.js')}}"></script>
+<script src="{{asset('admin_resources/plugins/slimScroll/jquery.slimscroll.min.js')}}"></script>
+<script src="{{asset('admin_resources/plugins/fastclick/fastclick.js')}}"></script>
+<script src="{{asset('admin_resources/dist/js/app.min.js')}}"></script>
 
 
 @yield('Extra_Js')

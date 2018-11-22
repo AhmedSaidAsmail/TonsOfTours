@@ -17,19 +17,22 @@ class RemoveImage
 
     /**
      * @param string $path Folder path
-     * @param string $img The image name
      */
-    public function __construct($path, $img)
+    public function __construct($path)
     {
-        $this->img = $img;
         $this->path = public_path() . $path;
     }
 
-    public function remove()
+    /**
+     * Removing image and its thumbs
+     *
+     * @param $img
+     */
+    public function remove($img)
     {
         foreach (self::paths as $folder) {
-            if ($this->checkFile($this->path, $folder, $this->img)) {
-                $file = $this->path . $folder . "/" . $this->img;
+            if ($this->checkFile($this->path, $folder, $img)) {
+                $file = $this->path . $folder . "/" . $img;
                 unlink($file);
             }
         }
