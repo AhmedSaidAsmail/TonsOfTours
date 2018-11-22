@@ -119,16 +119,17 @@
                         </li>
                     </ul>
                 </li>
+                <li class="treeview">
+                    <a href="{{route('site-visitor.index')}}">
+                        <i class="fa fa-users"></i> Visitors
+                    </a>
+                </li>
                 <li class="treeview"><a href="#"> <i class="fa fa-laptop">
                         </i> <span>Topics</span> <span class="pull-right-container"> <i
                                     class="fa fa-angle-left pull-right"></i> </span> </a>
                     <ul class="treeview-menu">
                         <li><a href="{{ route('Topics.index') }}"><i class="fa fa-circle-o"></i> Topics Manger</a></li>
                     </ul>
-                </li>
-                <li class="treeview"><a href="{{route('Transfers.index')}}"> <i class="fa fa-car"></i>
-                        <span>Transfer</span> </a>
-
                 </li>
                 <li class="treeview"><a href="{{route('Reservation.index')}}"> <i class="fa fa-cart-arrow-down"></i>
                         <span>Reservation</span> </a>

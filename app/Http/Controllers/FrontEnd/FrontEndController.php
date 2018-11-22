@@ -16,6 +16,7 @@ class FrontEndController extends Controller
      */
     public function welcomePage()
     {
+        visitors('home');
         $topItems = Item::where('recommended', 1)
             ->where('status', 1)
             ->orderBy('arrangement', 'DESC')
@@ -48,6 +49,7 @@ class FrontEndController extends Controller
     public function mainCategoryShow($name, $id)
     {
         $mainCategory = MainCategory::findOrFail($id);
+        visitors($mainCategory->title);
         $topItems = $mainCategory
             ->items()
             ->where('items.recommended', 1)
@@ -68,21 +70,21 @@ class FrontEndController extends Controller
     public function categoryShow($name, $id)
     {
         $category = Category::find($id);
+        visitors($category->title);
         $otherCategories = Category::where('id', '!=', $id)->get();
         return view('frontEnd.category', ['name' => $name, 'category' => $category, 'otherCategories' => $otherCategories]);
     }
 
     public function itemShow($category, $name, $id)
     {
-        $ipDetctor=new \App\Src\SiteVisitor\Visitor();
-        dd($ipDetctor->detect());
-//        $item = Item::findOrFail($id);
-//        $wishList = new WishList();
-//        return view('frontEnd.item', [
-//            'categoryName' => $category,
-//            'name' => $name,
-//            'item' => $item,
-//            'is_wish_list' => $wishList->check($id)
-//        ]);
+        $item = Item::findOrFail($id);
+        $wishList = new WishList();
+        visitors($item->title, $id);
+        return view('frontEnd.item', [
+            'categoryName' => $category,
+            'name' => $name,
+            'item' => $item,
+            'is_wish_list' => $wishList->check($id)
+        ]);
     }
 }

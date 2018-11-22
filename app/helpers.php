@@ -8,6 +8,8 @@ use App\Src\Sync\Sync;
 use App\Models\Item;
 use App\Src\SocialMedia\FacebookLogin\FacebookSdk;
 use App\Src\WishList\WishList;
+use App\Http\Controllers\Admin\VisitorsController;
+use Illuminate\Support\Facades\App;
 
 if (!function_exists('activeMainCategories')) {
     function activeMainCategories($limit = 4)
@@ -87,5 +89,13 @@ if (!function_exists('wishListsCount')) {
     {
         $wishList = new WishList();
         return count($wishList->all());
+    }
+
+    if (!function_exists('visitors')) {
+        function visitors($title, $item_id = null)
+        {
+            $url = \Illuminate\Support\Facades\URL::current();
+            VisitorsController::store(['url' => $url, 'item_id' => $item_id, 'title' => $title]);
+        }
     }
 }

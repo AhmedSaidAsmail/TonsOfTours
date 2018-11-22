@@ -1,5 +1,4 @@
 @extends('Admin.Layouts._master')
-@section('title','Items Panel')
 @section ('Extra_Css')
     <link rel="stylesheet" href="{{asset('admin_resources/plugins/datatables/dataTables.bootstrap.css')}}">
     <link rel="stylesheet" type="text/css" href="{{asset('css/admin/style.css')}}">
@@ -14,12 +13,12 @@
 @section('content')
     <div class="content-wrapper">
         <section class="content-header">
-            <h1> Items
-                <small>Items tables</small>
+            <h1> Web visitors
+                <small>Visitors tables</small>
             </h1>
             <ol class="breadcrumb">
                 <li><a href="#"><i class="fa fa-dashboard"></i> C-Panel</a></li>
-                <li><a href="#">Items</a></li>
+                <li><a href="#">Visitors</a></li>
             </ol>
         </section>
         <section class="content">
@@ -28,11 +27,6 @@
                     <!-- box -->
                     <div class="box">
                         <div class="box-header with-border">
-                            <div class="form-group">
-                                <a href="{{route('item.create')}}" class="btn btn-warning btn-block">
-                                    <i class="fa fa-plus-square fa-lg"></i> Add New Items
-                                </a>
-                            </div>
                             {{-- Alerts Messages --}}
                             @if(Session::has('alert'))
                                 <div class="alert {{Session('alertType')}} alert-dismissible">
@@ -52,49 +46,40 @@
                     </div>
                     <div class="box">
                         <div class="box-header">
-                            <h3 class="box-title">Categories Data With Full Features</h3>
+                            <h3 class="box-title">Web Visitors Data With Full Features</h3>
                         </div>
                         <div class="box-body">
-                            <table id="example1" class="table table-bordered table-striped">
+                            <table id="dataTable" class="table table-bordered table-striped">
                                 <thead>
                                 <tr>
-                                    <th>Category</th>
-                                    <th>Item</th>
-                                    <th>Status</th>
-                                    <th>Recommended</th>
-                                    <th>Visitors</th>
+                                    <th>Country</th>
+                                    <th>State</th>
+                                    <th>City</th>
+                                    <th>Ip</th>
+                                    <th>Last Visit</th>
                                     <th>#Action</th>
                                 </tr>
                                 </thead>
                                 <tbody>
 
-                                @foreach($items as $item)
+                                @foreach($visitors as $visitor)
                                     <tr>
+                                        <td>{{$visitor->country}}</td>
+                                        <td>{{$visitor->state}}</td>
+                                        <td>{{$visitor->city}}</td>
+                                        <td>{{$visitor->ip}}</td>
+                                        <td>{{$visitor->last_visit}}</td>
                                         <td>
-                                            {{$item->category->name}}
-                                        </td>
-                                        <td>
-                                            {{$item->name}}
-                                        </td>
-                                        <td>
-                                            <i class="fa fa-circle text-{!! $item->status?"green":"gray" !!}"></i>
-                                        </td>
-                                        <td>
-                                            <i class="fa fa-circle text-{!! $item->recommended?"green":"gray" !!}"></i>
-                                        </td>
-                                        <td>
-                                            {{$item->visitors()->count()}}
-                                        </td>
-                                        <td>
-                                            <form method="post" action="{{route('item.destroy',['id'=>$item->id])}}"
+                                            <form method="post"
+                                                  action="{{route('site-visitor.destroy',['id'=>$visitor->id])}}"
                                                   id="itemDelete">
                                                 {{csrf_field()}}
                                                 <input type="hidden" name="_method" value="DELETE">
                                             </form>
-                                            <ul class="list-inline text-center">
+                                            <ul class="list-inline">
                                                 <li>
-                                                    <a href="{{route('item.edit',['id'=>$item->id])}}">
-                                                        <i class="fa fa-pencil-square fa-lg text-success"></i>
+                                                    <a href="{{route('site-visitor.show',['id'=>$visitor->id])}}">
+                                                        <i class="fa fa-search"></i>
                                                     </a>
                                                 </li>
                                                 <li>
@@ -110,11 +95,11 @@
 
                                 <tfoot>
                                 <tr>
-                                    <th>Category</th>
-                                    <th>Item</th>
-                                    <th>Status</th>
-                                    <th>Recommended</th>
-                                    <th>Visitors</th>
+                                    <th>Country</th>
+                                    <th>State</th>
+                                    <th>City</th>
+                                    <th>Ip</th>
+                                    <th>Last Visit</th>
                                     <th>#Action</th>
                                 </tr>
                                 </tfoot>
@@ -133,11 +118,12 @@
     <script>
         $(function () {
             $("#example1").DataTable();
-            $('#example2').DataTable({
+            $('#dataTable').DataTable({
                 "paging": true,
                 "lengthChange": false,
-                "searching": false,
+                "searching": true,
                 "ordering": true,
+                "order": [[4, 'desc']],
                 "info": true,
                 "autoWidth": false
             });

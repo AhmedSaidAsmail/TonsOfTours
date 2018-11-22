@@ -68,6 +68,7 @@ Route::group(['prefix' => 'admin', 'middleware' => 'auth:web'], function () {
     Route::resource('/mainCategory', 'Admin\MainCategoriesController', ['expect' => ['create', 'show']]);
     Route::resource('category', 'Admin\CategoriesController', ['except' => ['create', 'show']]);
     Route::resource('/item', 'Admin\ItemsController');
+    Route::resource('site-visitor','Admin\VisitorsController',['only'=>['index','destroy','show']]);
 
     //gallery
     Route::resource('/Item/{itemID}/ItemGallery', 'Admin\ItemGalleryController', ['except' => ['show', 'edit', 'update', 'destroy']]);

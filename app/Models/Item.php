@@ -59,6 +59,11 @@ class Item extends Model implements ProductInterface
         return $this->hasMany(Gallery::class);
     }
 
+    public function visitors()
+    {
+        return $this->belongsToMany(Visitor::class, 'visitor_pages');
+    }
+
     public function delete()
     {
         $this->price()->delete();

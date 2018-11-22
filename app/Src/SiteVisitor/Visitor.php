@@ -14,9 +14,13 @@ class Visitor
 
     }
 
+    /**
+     * @return User|bool
+     */
     public function detect()
     {
-        return $this->json;
+        $user = new User($this->json);
+        return $user->detect();
     }
 
 }
