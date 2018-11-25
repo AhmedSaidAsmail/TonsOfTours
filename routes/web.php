@@ -9,6 +9,7 @@ Route::post('cart/check/availability/{id}', ['uses' => 'FrontEnd\CartController@
 Route::post('cart/store', ['uses' => 'FrontEnd\CartController@store'])->name('cart.store');
 Route::get('cart/all', ['uses' => 'FrontEnd\CartController@index'])->name('cart.index');
 Route::get('cart/checkout', ['uses' => 'FrontEnd\CartController@checkout'])->name('cart.checkout');
+Route::post('cart/checkout', ['uses' => 'FrontEnd\CartController@checkoutDone'])->name('cart.checkout');
 Route::get('cart/remove/items/{key}', ['uses' => 'FrontEnd\CartController@itemRemove'])->name('cart.item.remove');
 Route::get('wish-list/store/{item_id}', 'FrontEnd\WishListController@store')->name('wish-list.store');
 Route::get('wish-list/all', 'FrontEnd\WishListController@index')->name('wish-list.index');

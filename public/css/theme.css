@@ -1000,3 +1000,197 @@ h1.sent-email-success {
     display: block;
     margin: 20px 0 150px 0;
 }
+
+.checkout-form {
+    font-family: 'Raleway', sans-serif;
+    border-right: 1px solid var(--silver);
+}
+
+.checkout-form > h3 {
+    display: block;
+    font-size: 24px;
+    font-weight: 700;
+    padding-bottom: 10px;
+    margin-bottom: 20px;
+    position: relative;
+
+}
+
+.checkout-form > h3 > span {
+    position: absolute;
+    right: 0;
+    bottom: 5px;
+    font-size: 12px;
+    font-weight: 400;
+}
+
+.checkout-form > h3:after {
+    position: absolute;
+    border: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    height: 1px;
+    background-color: var(--silver);
+    content: '';
+}
+
+.checkout-form .form-group > label {
+    font-weight: 400;
+}
+
+.checkout-form .form-control {
+    border-radius: 0;
+    box-shadow: none;
+    height: 45px;
+    font-weight: 700;
+    /*padding-top: 15px;*/
+    /*padding-bottom: 15px;*/
+}
+
+section.checkout-form-section {
+    border-top: 1px solid var(--silver);
+    padding-top: 15px;
+}
+
+section.checkout-form-section > h3 {
+    display: block;
+    font-size: 24px;
+    font-weight: 700;
+    margin-bottom: 20px;
+}
+
+section.checkout-form-section .form-check {
+    margin-bottom: 15px;
+
+}
+
+section.checkout-form-section .form-check label {
+    font-weight: 400;
+    position: relative;
+    display: inline-block;
+}
+
+section.checkout-form-section .form-check .symbol-credit {
+    position: absolute;
+    width: auto;
+    white-space: nowrap;
+    left: calc(100% + 10px);
+    top: -2px;
+}
+
+section.checkout-form-section .form-check .symbol-credit svg {
+    border: 1px solid var(--silver);
+}
+
+section.checkout-form-section ul {
+    font-size: 12px;
+    list-style: disc;
+    padding-left: 30px;
+}
+
+section.checkout-form-section ul > li {
+    margin-bottom: 7px;
+}
+
+section.checkout-form-section .btn {
+}
+
+section.checkout-form-section .btn.no-paypal {
+    background-color: var(--carrot);
+    color: #ffffff;
+    font-size: 25px;
+}
+
+section.checkout-form-section .btn.with-paypal {
+    background-color: #ffc439;
+    font-size: 19px;
+    font-weight: 700;
+}
+
+section.checkout-form-section .btn.with-paypal > span {
+    padding-top: 5px;
+    padding-bottom: 5px;
+    display: inline-block;
+    position: relative;
+    margin-left: -60px;
+}
+
+section.checkout-form-section .btn.with-paypal > span:after {
+    content: url("../images/paypal-logo.png");
+    position: absolute;
+    left: calc(100% + 10px);
+
+}
+
+.checkout-review {
+    font-family: 'Lato', sans-serif;
+}
+
+.checkout-review > section {
+    padding-bottom: 15px;
+    border-bottom: 1px solid var(--silver);
+}
+
+.checkout-review > h3 {
+    font-weight: 700;
+    font-size: 22px;
+    margin-bottom: 10px;
+}
+
+.checkout-review-item {
+    padding-top: 20px;
+}
+
+.checkout-review-item > [class^=col-md]:first-child {
+    padding-left: 0;
+}
+
+.checkout-review-item h2 {
+    font-size: 18px;
+    margin-bottom: 10px;
+}
+
+.checkout-review-item-details span {
+    display: block;
+    line-height: 15px;
+}
+
+.checkout-review-item-prices {
+    font-size: 20px;
+    font-weight: 700;
+    text-align: right;
+}
+
+.checkout-review-item-prices > span {
+    display: block;
+    font-weight: 400;
+    font-size: 15px;
+}
+
+.checkout-review-cancel {
+    background-color: var(--cloudes);
+    padding-top: 3px;
+    padding-bottom: 3px;
+}
+
+.checkout-review-cancel i {
+    color: var(--blue);
+}
+
+section.checkout-review-total {
+    padding-top: 15px;
+    font-family: 'Lato', sans-serif;
+}
+section.checkout-review-total [class^=col-md]:first-child{
+    padding-left: 0;
+}
+section.checkout-review-total span {
+    font-size: 16px;
+}
+
+section.checkout-review-total label {
+    font-size: 18px;
+    font-family: 'Lato', sans-serif;
+    font-weight: 900;
+}

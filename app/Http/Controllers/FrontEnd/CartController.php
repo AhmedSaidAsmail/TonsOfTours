@@ -12,8 +12,6 @@ class CartController extends Controller
     public function index(Request $request)
     {
         $cart = new Cart($request);
-////        $cart->destroy();
-//        dd($cart);
         return view('frontEnd.cart.index', ['cart' => $cart->all()]);
     }
 
@@ -80,10 +78,38 @@ class CartController extends Controller
         return ($price->st_price * $data['st_num']) + ($price->sec_price * $data['sec_num']);
     }
 
+    /**
+     * Removing item from cart
+     *
+     * @param Request $request
+     * @param $key
+     * @return \Illuminate\Http\RedirectResponse
+     */
+
     public function itemRemove(Request $request, $key)
     {
         $cart = new Cart($request);
         $cart->remove($key);
         return redirect()->route('cart.index');
+    }
+
+    /**
+     * Displaying Checkout Form
+     *
+     * @param Request $request
+     * @return \Illuminate\Http\Response
+     */
+    public function checkout(Request $request)
+    {
+        $cart = new Cart($request);
+        return view('frontEnd.cart.checkout', ['cart' => $cart->all()]);
+    }
+
+    /**
+     * @param Request $request
+     */
+    public function checkoutDone(Request $request)
+    {
+        dd($request->all());
     }
 }

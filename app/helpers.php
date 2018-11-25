@@ -90,12 +90,21 @@ if (!function_exists('wishListsCount')) {
         $wishList = new WishList();
         return count($wishList->all());
     }
-
-    if (!function_exists('visitors')) {
-        function visitors($title, $item_id = null)
-        {
-            $url = \Illuminate\Support\Facades\URL::current();
-            VisitorsController::store(['url' => $url, 'item_id' => $item_id, 'title' => $title]);
+}
+if (!function_exists('visitors')) {
+    function visitors($title, $item_id = null)
+    {
+        $url = \Illuminate\Support\Facades\URL::current();
+        VisitorsController::store(['url' => $url, 'item_id' => $item_id, 'title' => $title]);
+    }
+}
+if (!function_exists('checkOutSettings')) {
+    function checkOutSettings($key)
+    {
+        $checkoutSetting = \App\Models\TwoCheckOut::first();
+        if (!is_null($checkoutSetting)) {
+            return $checkoutSetting->{$key};
         }
+        return null;
     }
 }
