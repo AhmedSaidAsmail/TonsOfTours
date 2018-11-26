@@ -2,10 +2,14 @@
 
 namespace App\Http\Controllers\FrontEnd;
 
+use App\Models\Customer;
 use App\Models\Item;
 use App\Src\Cart\Cart;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\App;
+use Illuminate\Support\Facades\Validator;
+use Illuminate\Validation\Rule;
 
 class CartController extends Controller
 {
@@ -110,6 +114,31 @@ class CartController extends Controller
      */
     public function checkoutDone(Request $request)
     {
+        $this->validator($request->all());
+        $customer = App::make(CustomerController::class)
+            ->customerInstance($request);
+        App::make(CreditCardsController::class)
+            ->store($request->get('credit'), $customer, $request->get('payment_method') == 'credit');
         dd($request->all());
     }
+
+    protected function validator(array $array)
+    {
+        return Validator::make($array, [
+            'deposit' => 'integer|required',
+            'first_name' => 'required',
+            'last_name' => 'required',
+            'email' => 'required|email',
+            'phone' => 'required',
+            'payment_method' => [Rule::in(['credit', 'paypal'])],
+            'token' => 'required_if:payment_method,==,credit',
+            'credit.name' => 'required_if:payment_method,==,credit',
+            'credit.cc_no' => 'required_if:payment_method,==,credit|digits:16',
+            'credit.cc_expire_month' => 'required_if:payment_method,==,credit|digits:2',
+            'credit.cc_expire_year' => 'required_if:payment_method,==,credit|digits:4',
+            'credit.ccv' => 'required_if:payment_method,==,credit|digits:3',
+            'credit.country' => 'required_if:payment_method,==,credit',
+        ])->validate();
+    }
+
 }

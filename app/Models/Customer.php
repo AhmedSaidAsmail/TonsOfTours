@@ -17,4 +17,9 @@ class Customer extends User
     {
         return $this->hasMany(WishList::class);
     }
+
+    public function credits()
+    {
+        return $this->hasMany(CreditCard::class);
+    }
 }

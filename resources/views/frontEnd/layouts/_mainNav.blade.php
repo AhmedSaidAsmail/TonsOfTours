@@ -10,7 +10,8 @@
                             <a href="{{route('wish-list.index')}}">
                                 <i class="fas fa-heart"></i> WishList
                                 @if(wishListsCount())
-                                    <span class="header-numbers">({{wishListsCount()}})<i class="fas fa-circle"></i></span>
+                                    <span class="header-numbers">({{wishListsCount()}})<i
+                                                class="fas fa-circle"></i></span>
                                 @endif
                             </a>
                         </li>
@@ -72,8 +73,9 @@
     <div class="row main-navbar normal-screen ">
         <div class="container">
             <div class="col-md-3">
-                <a href="{{route('home')}}" style="padding-top: 7px; display: block;">
-                    <img src="{{asset('images/logo.png')}}" alt="" style="width: 90%;">
+                <a href="{{route('home')}}" class="nav-width-screen-logo">
+                    <img src="{{asset('images/logo.png')}}" alt="{{Request::getHost()}}">
+                    <span>find your wealth in treasured moments</span>
                 </a>
             </div>
             <div class="col-md-9">

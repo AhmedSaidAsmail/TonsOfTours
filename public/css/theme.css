@@ -1182,9 +1182,11 @@ section.checkout-review-total {
     padding-top: 15px;
     font-family: 'Lato', sans-serif;
 }
-section.checkout-review-total [class^=col-md]:first-child{
+
+section.checkout-review-total [class^=col-md]:first-child {
     padding-left: 0;
 }
+
 section.checkout-review-total span {
     font-size: 16px;
 }
@@ -1193,4 +1195,42 @@ section.checkout-review-total label {
     font-size: 18px;
     font-family: 'Lato', sans-serif;
     font-weight: 900;
+}
+
+ul.checkout-notify {
+    margin-top: 25px;
+    margin-bottom: 15px;
+}
+
+ul.checkout-notify > li {
+    margin-top: 15px;
+    display: block;
+}
+
+ul.checkout-notify > li > span {
+    display: block;
+    font-weight: 900;
+    font-size: 16px;
+}
+
+.having-trouble {
+    position: relative;
+    margin-top: 25px;
+    padding-left: 35px;
+    font-size: 16px;
+
+}
+
+.having-trouble:before {
+    position: absolute;
+    left: 0;
+    content: '\f3cd';
+    font-family: 'Font Awesome 5 Free';
+    font-weight: 900;
+    font-size: 35px;
+    color: var(--blue);
+}
+
+.having-trouble > span {
+    display: block;
 }

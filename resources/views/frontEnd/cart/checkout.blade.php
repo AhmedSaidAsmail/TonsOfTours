@@ -356,17 +356,19 @@
                                     @endif
                                 </div>
                                 <div class="col-md-5 checkout-review-item-prices">
-                                    <span>Total:</span> {{$item->currency}}{{sprintf('%.2f',$item->total)}}
+                                    <span>{{translate('Total')}}
+                                        :</span> {{$item->currency}}{{sprintf('%.2f',$item->total)}}
                                     @if($item->deposit>0)
-                                        <span>Deposit Due:</span> {{$item->currency}}{{sprintf('%.2f',$item->deposit)}}
+                                        <span>{{translate('Deposit_Due')}}
+                                            :</span> {{$item->currency}}{{sprintf('%.2f',$item->deposit)}}
                                     @else
-                                        <span>No Deposit</span>
+                                        <span>{{translate('No_Deposit')}}</span>
                                     @endif
                                 </div>
                             </div>
                             <div class="row checkout-review-cancel">
                                 <div class="col-md-12">
-                                    <i class="fas fa-check"></i> Free cancellation before
+                                    <i class="fas fa-check"></i> {{translate('Free_cancellation_before')}}
                                     {{\Carbon\Carbon::parse($item->date)->subDay(2)->format('l, M d, Y')}}
                                 </div>
                             </div>
@@ -390,6 +392,26 @@
                             </div>
                         </div>
                     </section>
+                    <section>
+                        <ul class="checkout-notify">
+                            <li>
+                                <span>{{translate('Lowest_Price_Guarantee')}}</span>
+                                {{translate("Find_it_cheaper?_We'll_refund_the_difference")}}
+                            </li>
+                            <li>
+                                <span>{{translate('24/7_Global_Support')}}</span>
+                                {{translate('Get_the_answers_you_need,_when_you_need_them')}}
+                            </li>
+                            <li>
+                                <span>{{translate('Book_Securely')}}</span>
+                                <i class="fas fa-lock"></i> {{translate('We_use_SSL_encryption_to_keep_your_data_secure')}}
+                            </li>
+                        </ul>
+                    </section>
+                    <div class="having-trouble">
+                        <span>{{translate('Having_trouble_booking_online?')}}</span>
+                        <span>{{translate('Call')}} {{translate('info_phone')}}</span>
+                    </div>
                 </div>
             </div>
         </div>
