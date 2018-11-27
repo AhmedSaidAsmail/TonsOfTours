@@ -3,6 +3,8 @@
 namespace App\Src\Cart;
 
 
+use Illuminate\Database\Eloquent\Relations\HasMany;
+
 class CartCollection
 {
     /**
@@ -32,7 +34,7 @@ class CartCollection
     /**
      * @var int $deposit Deposit due for all products
      */
-    public $deposit=0;
+    public $deposit = 0;
     /**
      * Number of how many carts there are
      *
@@ -57,7 +59,7 @@ class CartCollection
      * @param string $addType should to be item or transfer
      * @return $this
      */
-    public function add(array $data, $addType = "item")
+    public function add(array $data, $addType)
     {
         switch ($addType) {
             case "item":
@@ -93,7 +95,7 @@ class CartCollection
      */
     private function initItemCart(array $data)
     {
-        $cart = new itemCart($data);
+        $cart = new ItemCart($data);
         $cart->init();
         return $cart;
 
@@ -117,6 +119,23 @@ class CartCollection
     public function transfers()
     {
         return $this->stocks['transfer'];
+    }
+
+    /**
+     * Storing cart items in database
+     *
+     * @param HasMany $items
+     * @param string $stock define target stock
+     */
+    public function store(HasMany $items, $stock)
+    {
+        switch ($stock) {
+            case 'items':
+                $this->stocks['item']->store($items);
+                break;
+            default:
+                $this->stocks['item']->store($items);
+        }
     }
 
 

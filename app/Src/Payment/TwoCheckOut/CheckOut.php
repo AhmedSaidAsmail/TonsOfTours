@@ -56,28 +56,23 @@ class CheckOut implements PaymentGateway
      */
     public $request;
     /**
-     * @var string $successLink Success link redirect
+     * @var string $redirectLink response link redirect
      */
-    private $successLink;
-    /**
-     * @var string $failureLink Failure link redirect
-     */
-    private $failureLink;
+    private $redirectLink;
+
 
     /**
      * CheckOut constructor.
      * @param Request $request
      * @param int $total
-     * @param string $successLink
-     * @param string $failureLink
+     * @param string $redirectLink
      * @return void
      */
-    public function __construct(Request $request, $total, $successLink, $failureLink)
+    public function __construct(Request $request, $total, $redirectLink)
     {
         $this->request = $request;
         $this->total = $total;
-        $this->successLink = $successLink;
-        $this->failureLink = $failureLink;
+        $this->redirectLink = $redirectLink;
     }
 
     /**
@@ -158,7 +153,9 @@ class CheckOut implements PaymentGateway
             Twocheckout::verifySSL($this->verifySSL);
             Twocheckout::sandbox($this->sandbox);
             $charge = Twocheckout_Charge::auth($sellerDetails, 'array');
-            return (new ResponseLink($this->successLink, $charge['response']))->make();
+            return (new CheckoutResponseLink($this->redirectLink))
+                ->makeResponseQueries($charge['response'])
+                ->make();
 
         } catch (\Exception $e) {
             throw new PaymentException($e->getMessage());

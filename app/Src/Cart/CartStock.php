@@ -3,6 +3,8 @@
 namespace App\Src\Cart;
 
 
+use Illuminate\Database\Eloquent\Relations\HasMany;
+
 class CartStock
 {
     /**
@@ -71,10 +73,14 @@ class CartStock
         return $this->carts;
     }
 
-
-    public function store()
+    /**
+     * @param HasMany $hasMany
+     */
+    public function store(HasMany $hasMany)
     {
-
+        $hasMany->createMany(array_map(function ($cart) {
+            return $cart->__toArray();
+        }, array_values($this->carts)));
     }
 
     /**

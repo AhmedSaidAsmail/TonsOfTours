@@ -46,6 +46,10 @@ class PaypalApiBuilder
      * @var ApiContext $api
      */
     private $api;
+    /**
+     * @var PaypalResponseLink $responseLink ;
+     */
+    private $responseLink;
 
     /**
      * PaypalApiBuilder constructor.
@@ -61,6 +65,7 @@ class PaypalApiBuilder
         $this->payment = new Payment();
         $this->redirectUrls = new RedirectUrls();
         $this->paypal_instance = $paypal_instance;
+        $this->responseLink = new PaypalResponseLink($paypal_instance->redirectLink);
     }
 
     /**
@@ -164,8 +169,8 @@ class PaypalApiBuilder
      */
     private function setRedirect()
     {
-        $this->redirectUrls->setReturnUrl($this->paypal_instance->successLink)
-            ->setCancelUrl($this->paypal_instance->failureLink);
+        $this->redirectUrls->setReturnUrl($this->responseLink->makeResponseQueries(['approval' => "success"])->make())
+            ->setCancelUrl($this->responseLink->makeResponseQueries(['approval' => "canceled"])->make());
         $this->payment->setRedirectUrls($this->redirectUrls);
         return $this;
     }

@@ -3,6 +3,7 @@
 namespace App\Src\Cart;
 
 
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Http\Request;
 
 class Cart
@@ -45,7 +46,7 @@ class Cart
 
     public function add(array $data, $addType = "item")
     {
-        $this->cart=$this->cart->add($data, $addType);
+        $this->cart = $this->cart->add($data, $addType);
         $this->save();
     }
 
@@ -57,7 +58,7 @@ class Cart
      */
     public function remove($key, $stock = "items")
     {
-        $this->cart=$this->cart->remove($key, $stock);
+        $this->cart = $this->cart->remove($key, $stock);
         $this->save();
     }
 
@@ -81,9 +82,20 @@ class Cart
         $this->request->session()->put('cart', $this->cart);
     }
 
+    /**
+     * Storing cart items in database
+     *
+     * @param HasMany $items
+     * @param string $stock define target stock
+     */
+    public function store(HasMany $items, $stock = "items")
+    {
+        $this->cart->store($items, $stock);
+    }
+
     public function destroy()
     {
-        $this->request->session()->put('cart',new CartCollection());
+        $this->request->session()->put('cart', new CartCollection());
     }
 
 }

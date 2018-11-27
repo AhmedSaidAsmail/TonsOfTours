@@ -13,17 +13,16 @@ class PaymentFactory
      * @param Request $request
      * @param $total
      * @param $payment_method
-     * @param string $successLink
-     * @param string $failureLink
+     * @param string $redirectLink
      * @return PaymentGateway
      */
-    public static function factory(Request $request, $total, $payment_method, $successLink, $failureLink)
+    public static function factory(Request $request, $total, $payment_method, $redirectLink)
     {
         switch ($payment_method) {
             case 'credit':
-                return new CheckOut($request, $total, $successLink, $failureLink);
+                return new CheckOut($request, $total, $redirectLink);
             case "paypal":
-                return new Paypal($request, $total, $successLink, $failureLink);
+                return new Paypal($request, $total, $redirectLink);
         }
 
     }

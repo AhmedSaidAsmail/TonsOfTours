@@ -82,7 +82,7 @@ class CustomerController extends Controller
         $user = Customer::create([
             'name' => $data['first_name'] . " " . $data['last_name'],
             'email' => $data['email'],
-            'password' => bcrypt(md5(uniqid(rand(), true))),
+            'password' => "booking",
             'newsletter' => $newsletter,
         ]);
         $user->information()->create(['phone' => $data['phone']]);

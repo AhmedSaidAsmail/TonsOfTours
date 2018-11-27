@@ -47,7 +47,7 @@
     </div>
 </section>
 @section('_extra_js')
-    @parent()
+    @parent
     <script>
         $(function () {
             let login = $("div.login-area");

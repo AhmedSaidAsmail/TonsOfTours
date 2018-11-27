@@ -482,6 +482,24 @@ ul.item-excludes > li:before {
     width: 50%;
 }
 
+.empty-cart {
+    width: 30%;
+    margin: 70px auto;
+    text-align: center;
+    font-family: 'Lato', sans-serif;
+}
+
+.empty-cart > h1 {
+    font-weight: 700;
+    margin-bottom: 20px;
+}
+
+.empty-cart .btn {
+    font-weight: 700;
+    font-size: 23px;
+    margin-top: 15px;
+}
+
 h1.cart-header {
     font-family: 'Raleway', sans-serif;
     margin: 0;
@@ -1233,4 +1251,41 @@ ul.checkout-notify > li > span {
 
 .having-trouble > span {
     display: block;
+}
+
+.booking-success {
+    text-align: center;
+    width: 70%;
+    margin: 50px auto;
+    font-family: 'Lato', sans-serif;
+}
+
+.booking-success > h1 {
+    color: var(--green);
+}
+
+.booking-success > span.booking-msg {
+    font-weight: 700;
+    display: block;
+    font-size: 18px;
+    margin-bottom: 30px;
+}
+
+.booking-success > h2 {
+    font-weight: 300;
+    font-size: 18px;
+}
+
+.payment-details {
+    background-color: var(--cloudes);
+    border: 1px solid var(--silver);
+    box-shadow: 1px 3px 5px rgba(0,0,0,.4);
+    margin: 10px 0;
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+.booking-email-notify{
+    display: block;
+    font-weight: 700;
+    font-size: 17px;
 }

@@ -10,6 +10,7 @@ Route::post('cart/store', ['uses' => 'FrontEnd\CartController@store'])->name('ca
 Route::get('cart/all', ['uses' => 'FrontEnd\CartController@index'])->name('cart.index');
 Route::get('cart/checkout', ['uses' => 'FrontEnd\CartController@checkout'])->name('cart.checkout');
 Route::post('cart/checkout', ['uses' => 'FrontEnd\CartController@checkoutDone'])->name('cart.checkout');
+Route::get('cart/checkout/response/{reservation_id}/{reservation_unique_id}', ['uses' => 'FrontEnd\CartController@checkoutResponse'])->name('cart.checkout.response');
 Route::get('cart/remove/items/{key}', ['uses' => 'FrontEnd\CartController@itemRemove'])->name('cart.item.remove');
 Route::get('wish-list/store/{item_id}', 'FrontEnd\WishListController@store')->name('wish-list.store');
 Route::get('wish-list/all', 'FrontEnd\WishListController@index')->name('wish-list.index');
@@ -69,7 +70,7 @@ Route::group(['prefix' => 'admin', 'middleware' => 'auth:web'], function () {
     Route::resource('/mainCategory', 'Admin\MainCategoriesController', ['expect' => ['create', 'show']]);
     Route::resource('category', 'Admin\CategoriesController', ['except' => ['create', 'show']]);
     Route::resource('/item', 'Admin\ItemsController');
-    Route::resource('site-visitor','Admin\VisitorsController',['only'=>['index','destroy','show']]);
+    Route::resource('site-visitor', 'Admin\VisitorsController', ['only' => ['index', 'destroy', 'show']]);
 
     //gallery
     Route::resource('/Item/{itemID}/ItemGallery', 'Admin\ItemGalleryController', ['except' => ['show', 'edit', 'update', 'destroy']]);

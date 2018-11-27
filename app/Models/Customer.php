@@ -22,4 +22,9 @@ class Customer extends User
     {
         return $this->hasMany(CreditCard::class);
     }
+
+    public function reservations()
+    {
+        return $this->hasMany(Reservation::class);
+    }
 }

@@ -40,27 +40,21 @@ class Paypal implements PaymentGateway
      */
     public $description;
     /**
-     * @var string $successLink Success link redirect
+     * @var string $redirectLink  link redirect response
      */
-    public $successLink;
-    /**
-     * @var string $failureLink Failure link redirect
-     */
-    public $failureLink;
+    public $redirectLink;
 
     /**
      * Paypal constructor.
      * @param Request $request
      * @param $total
-     * @param $successLink
-     * @param $failureLink
+     * @param $redirectLink
      */
-    public function __construct(Request $request, $total, $successLink, $failureLink)
+    public function __construct(Request $request, $total, $redirectLink)
     {
         $this->request = $request;
         $this->total = $total;
-        $this->successLink = $successLink;
-        $this->failureLink = $failureLink;
+        $this->redirectLink = $redirectLink;
     }
 
     /**
@@ -102,7 +96,7 @@ class Paypal implements PaymentGateway
     {
         $paypal = new PaypalApiBuilder($this);
         try {
-            $paypal->build();
+            return $paypal->build();
         } catch (\Exception $e) {
             throw new PaymentException($e->getMessage());
         }

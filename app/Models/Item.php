@@ -64,6 +64,11 @@ class Item extends Model implements ProductInterface
         return $this->belongsToMany(Visitor::class, 'visitor_pages');
     }
 
+    public function reservations()
+    {
+        return $this->hasMany(ReservationItem::class);
+    }
+
     public function delete()
     {
         $this->price()->delete();

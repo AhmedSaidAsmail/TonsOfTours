@@ -13,10 +13,9 @@ interface PaymentGateway
      * PaymentGateway constructor.
      * @param Request $request
      * @param $total
-     * @param $successLink
-     * @param $failureLink
+     * @param $redirectLink
      */
-    public function __construct(Request $request, $total, $successLink, $failureLink);
+    public function __construct(Request $request, $total, $redirectLink);
 
     /**
      * @return void

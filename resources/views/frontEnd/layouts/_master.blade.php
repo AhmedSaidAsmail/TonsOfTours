@@ -66,25 +66,32 @@
     </div>
 </div>
 <div class="row text-center" style="background-color: #f2f2f2; padding: 10px;">
-    © 2017 www.holidaysinegypt.net All Rights Reserved
+    © 2017 {{Request::getHost()}} All Rights Reserved
 </div>
 <div class="row footer-share-bottom">
     <div class="col-md-3 footer-share-div twiter-share" onclick="location.href = '{{Vars::getVar('twitter-link')}}'">
-        <div class="footer-share-text"><i class="fa fa-twitter"></i>{{Vars::getVar('FOLLOW_US')}}</div>
+        <div class="footer-share-text">
+            <i class="fa fa-twitter"></i>{{Vars::getVar('FOLLOW_US')}}
+        </div>
     </div>
     <div class="col-md-3 footer-share-div facebook-share" onclick="location.href = '{{Vars::getVar('facebook-link')}}'">
-        <div class="footer-share-text"><i class="fa fa-facebook"></i>{{Vars::getVar('LIKE_US')}}</div>
+        <div class="footer-share-text">
+            <i class="fa fa-facebook"></i>{{Vars::getVar('LIKE_US')}}
+        </div>
     </div>
     <div class="col-md-3 footer-share-div footer-google" onclick="location.href = '{{Vars::getVar('google-link')}}'">
-        <div class="footer-share-text"><i class="fa fa-google-plus"></i>{{Vars::getVar('CONNECT')}}</div>
+        <div class="footer-share-text">
+            <i class="fa fa-google-plus"></i>{{Vars::getVar('CONNECT')}}
+        </div>
     </div>
     <div class="col-md-3 footer-share-div footer-pin" onclick="location.href = '{{Vars::getVar('pin-link')}}'">
-        <div class="footer-share-text"><i class="fa fa-pinterest-p"></i>{{Vars::getVar('PIN_US')}}</div>
+        <div class="footer-share-text">
+            <i class="fa fa-pinterest-p"></i>{{Vars::getVar('PIN_US')}}
+        </div>
     </div>
 </div>
 <script src="{{asset('js/jquery-2.2.3.min.js')}}"></script>
 <script src="{{asset('js/bootstrap.min.js')}}"></script>
-{{--<script src="{{asset('js/per.min.js')}}"></script>--}}
 @yield('_nav_js')
 @yield('_extra_js')
 </body>

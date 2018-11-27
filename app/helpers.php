@@ -2,10 +2,10 @@
 
 use App\Models\MainCategory;
 use App\Models\Category;
+use App\Models\Item;
 use App\Http\Controllers\Admin\VarsController;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use App\Src\Sync\Sync;
-use App\Models\Item;
 use App\Src\SocialMedia\FacebookLogin\FacebookSdk;
 use App\Src\WishList\WishList;
 use App\Http\Controllers\Admin\VisitorsController;
@@ -42,10 +42,16 @@ if (!function_exists('topTours')) {
             ->get();
     }
 }
+if (!function_exists('getItem')) {
+    function getItem($id)
+    {
+        return Item::find($id);
+    }
+}
 if (!function_exists('translate')) {
     function translate($word)
     {
-        return VarsController::translate($word);
+        return VarsController::translate(str_replace(' ', '_', $word));
     }
 }
 if (!function_exists('getValue')) {

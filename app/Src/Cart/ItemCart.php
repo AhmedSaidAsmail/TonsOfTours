@@ -15,7 +15,21 @@ class ItemCart extends Product
         'st_name',
         'sec_num',
         'sec_price',
-        'sec_name'
+        'sec_name',
+    ];
+    protected $reservationData = [
+        'item_id',
+        'title',
+        'date',
+        'currency',
+        'st_num',
+        'st_price',
+        'st_name',
+        'sec_num',
+        'sec_price',
+        'sec_name',
+        'total',
+        'deposit'
     ];
 
 

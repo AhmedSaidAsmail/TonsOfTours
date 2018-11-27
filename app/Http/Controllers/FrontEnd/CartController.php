@@ -2,12 +2,16 @@
 
 namespace App\Http\Controllers\FrontEnd;
 
+use App\Http\Controllers\Admin\ReservationController;
+use App\Mail\CustomerNotificationMail;
 use App\Models\Customer;
 use App\Models\Item;
 use App\Src\Cart\Cart;
+use App\Src\Payment\Payment;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\App;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
 
@@ -47,7 +51,6 @@ class CartController extends Controller
         $item = Item::find($dat['item_id']);
         $cart = new Cart($request);
         $cart->add(array_merge($dat, ['model' => $item]));
-//        $cart->save();
         return redirect()->route('cart.index');
     }
 
@@ -111,15 +114,55 @@ class CartController extends Controller
 
     /**
      * @param Request $request
+     * @return \Illuminate\Http\RedirectResponse|string
      */
     public function checkoutDone(Request $request)
     {
+        $data = $request->all();
         $this->validator($request->all());
+        /** @var Customer $customer */
         $customer = App::make(CustomerController::class)
             ->customerInstance($request);
-        App::make(CreditCardsController::class)
-            ->store($request->get('credit'), $customer, $request->get('payment_method') == 'credit');
-        dd($request->all());
+        // store customer credit card
+        $this->addCustomerCreditCard($request, $customer);
+        // storing reservation
+        $reservation = App::make(ReservationController::class)->store($request, $customer);
+        (new Cart($request))->store($reservation->items());
+        //payment gateway
+        try {
+            $payment = new Payment($request, $data, route('cart.checkout.response', [
+                'reservation_id' => $reservation->id,
+                'reservation_unique_id' => $reservation->unique_id
+            ]));
+            return redirect()->to($payment->pay());
+        } catch (\Exception $e) {
+            return redirect()->back()->with('failure', $e->getMessage());
+        }
+
+    }
+
+    /**
+     * @param Request $request
+     * @param $reservation_id
+     * @param $reservation_unique_id
+     * @return \Illuminate\Http\Response
+     */
+    public function checkoutResponse(Request $request, $reservation_id, $reservation_unique_id)
+    {
+        $data = $request->all();
+        if (isset($data['approval']) && $data['approval'] == "success") {
+            try {
+                $reservation = App::make(ReservationController::class)->update($request, $reservation_id, $reservation_unique_id);
+                (new Cart($request))->destroy();
+                Mail::to($reservation->customer->email)
+                    ->send(new CustomerNotificationMail($reservation, $request));
+                return view('frontEnd.cart.success', ['reservation' => $reservation]);
+            } catch (\Exception $e) {
+                return redirect()->route('cart.checkout')->with('failure', $e->getMessage());
+            }
+
+        }
+        return redirect()->route('cart.checkout')->with('failure', '!Oops ,something went wrong');
     }
 
     protected function validator(array $array)
@@ -139,6 +182,20 @@ class CartController extends Controller
             'credit.ccv' => 'required_if:payment_method,==,credit|digits:3',
             'credit.country' => 'required_if:payment_method,==,credit',
         ])->validate();
+    }
+
+    /**
+     * Storing credit card if not exists for this customer
+     *
+     * @param Request $request
+     * @param Customer $customer
+     */
+    private function addCustomerCreditCard(Request $request, Customer $customer)
+    {
+        if ($request->get('deposit') > 0) {
+            App::make(CreditCardsController::class)
+                ->store($request->get('credit'), $customer, $request->get('payment_method') == 'credit');
+        }
     }
 
 }
