@@ -1,2 +1,13 @@
-#basicToggle{ display:none;}
-#ErrorMsgDetails{display: none;}
+#basicToggle {
+    display: none;
+}
+
+#ErrorMsgDetails {
+    display: none;
+}
+
+.remove-button {
+    border: none;
+    background-color: transparent;
+    padding: 0;
+}

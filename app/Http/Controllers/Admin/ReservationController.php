@@ -18,10 +18,20 @@ class ReservationController extends Controller
      */
     public function index()
     {
-        $reservations = Reservation::all();
-        return view('Admin.Reservatons', ['reservations' => $reservations]);
+        $reservations = Reservation::where('archive', 0)->get();
+        return view('Admin._reservations.reservationsIndex', ['reservations' => $reservations]);
     }
 
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function indexArchive()
+    {
+        $reservations = Reservation::where('archive', 1)->get();
+        return view('Admin._reservations.reservationsArchiveIndex', ['reservations' => $reservations]);
+    }
 
     /**
      * Store a newly created resource in storage.
@@ -36,7 +46,8 @@ class ReservationController extends Controller
             'unique_id' => md5(uniqid(rand(), true)),
             'date' => Carbon::now(),
             'total' => $request->get('total'),
-            'deposit' => $request->get('deposit')
+            'deposit' => $request->get('deposit'),
+            'currency' => $request->get('currency')
         ]);
     }
 
@@ -48,19 +59,8 @@ class ReservationController extends Controller
      */
     public function show($id)
     {
-        $reseration = Reservation::find($id);
-        return view('Admin.ReservationShow', ['reservation' => $reseration]);
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
+        $reservation = Reservation::find($id);
+        return view('Admin._reservations.reservationShow', ['reservation' => $reservation]);
     }
 
     /**
@@ -80,14 +80,17 @@ class ReservationController extends Controller
     }
 
     /**
-     * Remove the specified resource from storage.
+     * Archived specified reservations
      *
-     * @param  int $id
-     * @return \Illuminate\Http\Response
+     * @param Request $request
+     * @return \Illuminate\Http\RedirectResponse
      */
-    public function destroy($id)
+    public function archive(Request $request)
     {
-        //
+        Reservation::whereIn('id', array_values($request->get('archive')))
+            ->update(['archive' => 1]);
+        return redirect()->back();
     }
+
 
 }

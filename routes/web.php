@@ -84,7 +84,9 @@ Route::group(['prefix' => 'admin', 'middleware' => 'auth:web'], function () {
     Route::resource('/vars', 'Admin\VarsController');
     Route::resource('/Transfers', 'Admin\TransferController');
     Route::resource('/Paypal', 'Admin\PaypalController');
-    Route::resource('/Reservation', 'Admin\ReservationController');
+    Route::resource('/reservation', 'Admin\ReservationController', ['expect' => ['edit', 'destroy']]);
+    Route::get('/reservation/items/archive', 'Admin\ReservationController@indexArchive')->name('reservation.archive');
+    Route::put('/reservation/items/archive', 'Admin\ReservationController@archive')->name('reservation.archive');
 });
 
 //Auth::routes();

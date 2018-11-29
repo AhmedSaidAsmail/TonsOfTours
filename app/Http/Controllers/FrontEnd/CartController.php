@@ -4,16 +4,12 @@ namespace App\Http\Controllers\FrontEnd;
 
 use App\Http\Controllers\Admin\ReservationController;
 use App\Mail\CustomerNotificationMail;
-use App\Models\Customer;
 use App\Models\Item;
 use App\Src\Cart\Cart;
-use App\Src\Payment\Payment;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Mail;
-use Illuminate\Support\Facades\Validator;
-use Illuminate\Validation\Rule;
 
 class CartController extends Controller
 {
@@ -118,23 +114,11 @@ class CartController extends Controller
      */
     public function checkoutDone(Request $request)
     {
-        $data = $request->all();
-        $this->validator($request->all());
-        /** @var Customer $customer */
-        $customer = App::make(CustomerController::class)
-            ->customerInstance($request);
-        // store customer credit card
-        $this->addCustomerCreditCard($request, $customer);
-        // storing reservation
-        $reservation = App::make(ReservationController::class)->store($request, $customer);
-        (new Cart($request))->store($reservation->items());
-        //payment gateway
+        $checkout = new Checkout($request);
+        $checkout->validator();
         try {
-            $payment = new Payment($request, $data, route('cart.checkout.response', [
-                'reservation_id' => $reservation->id,
-                'reservation_unique_id' => $reservation->unique_id
-            ]));
-            return redirect()->to($payment->pay());
+            $checkout->make();
+            return redirect()->to($checkout->link);
         } catch (\Exception $e) {
             return redirect()->back()->with('failure', $e->getMessage());
         }
@@ -163,39 +147,6 @@ class CartController extends Controller
 
         }
         return redirect()->route('cart.checkout')->with('failure', '!Oops ,something went wrong');
-    }
-
-    protected function validator(array $array)
-    {
-        return Validator::make($array, [
-            'deposit' => 'integer|required',
-            'first_name' => 'required',
-            'last_name' => 'required',
-            'email' => 'required|email',
-            'phone' => 'required',
-            'payment_method' => [Rule::in(['credit', 'paypal'])],
-            'token' => 'required_if:payment_method,==,credit',
-            'credit.name' => 'required_if:payment_method,==,credit',
-            'credit.cc_no' => 'required_if:payment_method,==,credit|digits:16',
-            'credit.cc_expire_month' => 'required_if:payment_method,==,credit|digits:2',
-            'credit.cc_expire_year' => 'required_if:payment_method,==,credit|digits:4',
-            'credit.ccv' => 'required_if:payment_method,==,credit|digits:3',
-            'credit.country' => 'required_if:payment_method,==,credit',
-        ])->validate();
-    }
-
-    /**
-     * Storing credit card if not exists for this customer
-     *
-     * @param Request $request
-     * @param Customer $customer
-     */
-    private function addCustomerCreditCard(Request $request, Customer $customer)
-    {
-        if ($request->get('deposit') > 0) {
-            App::make(CreditCardsController::class)
-                ->store($request->get('credit'), $customer, $request->get('payment_method') == 'credit');
-        }
     }
 
 }

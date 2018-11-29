@@ -26,6 +26,8 @@ class CreateReservationsTable extends Migration
             $table->text('date');
             $table->float('total');
             $table->float('deposit');
+            $table->string('currency');
+            $table->boolean('archive')->default(0);
             $table->timestamps();
         });
     }

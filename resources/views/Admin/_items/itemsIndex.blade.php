@@ -3,13 +3,6 @@
 @section ('Extra_Css')
     <link rel="stylesheet" href="{{asset('admin_resources/plugins/datatables/dataTables.bootstrap.css')}}">
     <link rel="stylesheet" type="text/css" href="{{asset('css/admin/style.css')}}">
-    <style>
-        .remove-button {
-            border: none;
-            background-color: transparent;
-            padding: 0;
-        }
-    </style>
 @endsection
 @section('content')
     <div class="content-wrapper">

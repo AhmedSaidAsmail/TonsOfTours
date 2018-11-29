@@ -31,11 +31,13 @@
                         $phone = $customer->information->phone;
                     }
                     ?>
-                    <form action="{{route('cart.checkout')}}" method="post" {!! $cart->deposit>0?'id="checkOutForm"':null !!}>
+                    <form action="{{route('cart.checkout')}}"
+                          method="post" {!! $cart->deposit>0?'id="checkOutForm"':null !!}>
                         {{csrf_field()}}
                         <input id="token" name="token" type="hidden" value="">
                         <input type="hidden" name="deposit" value="{{$cart->deposit}}">
                         <input type="hidden" name="total" value="{{$cart->total}}">
+                        <input type="hidden" name="currency" value="{{translate('$')}}">
                         <div class="row">
                             <div class="col-md-6">
                                 <div class="form-group">
