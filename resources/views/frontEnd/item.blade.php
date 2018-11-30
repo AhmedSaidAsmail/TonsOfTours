@@ -14,7 +14,7 @@
                 <a href="{{asset('images/items/'.$item->img)}}?image=100" class="more-photos" data-toggle="lightbox"
                    data-gallery="{{$item->title}}">
                     <i class="fas fa-camera"></i>
-                    {{translate('More_photos')}}
+                    <span>{{translate('More_photos')}}</span>
                 </a>
                 <div class="item-gallery">
                     @foreach($item->gallery as $img)
@@ -41,7 +41,7 @@
                     </li>
                     <li>{{$item->title}}</li>
                 </ul>
-                <h1>{{$item->title}}</h1>
+                <h1 class="item-title-responsive">{{$item->title}}</h1>
             </div>
         </div>
 

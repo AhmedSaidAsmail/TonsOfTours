@@ -57,6 +57,8 @@ h1, h2, h3, h4 {
 
 body#exc {
     font-family: 'Mallanna', sans-serif;
+    width: 100%;
+    overflow-x: hidden;
     background: #FFF; /* For browsers that do not support gradients */
 
 }
@@ -72,6 +74,10 @@ body.not-scrolled {
 
 .no-padding {
     padding: 0;
+}
+
+.mobile-header {
+    display: none;
 }
 
 section.main-nav {
@@ -200,6 +206,14 @@ a.nav-width-screen-logo > span {
     position: inherit;
 }
 
+.main-navbar.normal-screen .nav > li.responsive-title {
+    display: none;
+}
+
+.main-navbar.normal-screen .nav > li.responsive-item {
+    display: none;
+}
+
 .main-navbar.normal-screen .nav > li {
     font-family: 'Mallanna', sans-serif;
     font-size: 19px;
@@ -212,6 +226,10 @@ a.nav-width-screen-logo > span {
 
 .main-navbar.normal-screen .nav > li:hover > a {
     background-color: #ffffff;
+}
+
+.pull-right-container {
+    display: none;
 }
 
 .main-navbar.normal-screen .nav > li > .sub-nav {
@@ -325,6 +343,14 @@ a.nav-width-screen-logo > span {
     background: linear-gradient(rgba(255, 255, 255, 0), rgba(255, 255, 255, 1)), url("../images/slider2.jpg") no-repeat left -120px;
 }
 
+@media screen and (max-width: 797px) {
+    .insider-header-container-sp {
+        height: 150px;
+        background-position-y: 0;
+        background-size: 150% auto;
+    }
+}
+
 .insider-header-container > img {
     width: 100%;
     z-index: -1;
@@ -337,6 +363,12 @@ a.nav-width-screen-logo > span {
     background-color: rgba(0, 0, 0, .4);
     padding: 7% 0 0 0;
     color: #ffffff;
+}
+
+@media screen and (max-width: 797px) {
+    .insider-header-contains {
+        padding-top: 0;
+    }
 }
 
 .insider-header-contains .dir {
@@ -372,6 +404,16 @@ a.nav-width-screen-logo > span {
     font-weight: bold;
 }
 
+@media screen and (max-width: 797px) {
+    .insider-header-contains .dir {
+        margin-top: 0;
+    }
+
+    .insider-header-contains .dir > li {
+        font-size: 10px;
+    }
+}
+
 .insider-header-contains h1 {
     text-align: center;
     margin-top: 50px;
@@ -382,6 +424,18 @@ a.nav-width-screen-logo > span {
     text-shadow: 1px 1px #000;
     text-transform: uppercase;
 
+}
+
+@media screen and (max-width: 797px) {
+    .insider-header-contains h1 {
+        padding: 0 5%;
+        margin-top: 20px;
+        font-size: 35px;
+    }
+
+    h1.item-title-responsive {
+        font-size: 25px;
+    }
 }
 
 /** Welcome Search **/
@@ -622,6 +676,17 @@ h1.main-title {
     text-decoration: underline;
 }
 
+h1.main-title-center {
+    font-family: 'Lato', sans-serif;
+    color: #424343;
+    margin-bottom: 20px;
+    margin-left: 0;
+    display: block;
+    font-size: 33px;
+    text-decoration: underline;
+    text-align: center;
+}
+
 /** items holder **/
 .item-holder-first {
     width: 100%;
@@ -641,6 +706,16 @@ h1.main-title {
 
 .item-holder-first > img, .item-holder-second > img {
     width: 100%;
+}
+
+@media screen and (max-width: 797px) {
+    .item-holder-first, .item-holder-second {
+        height: 250px;
+    }
+
+    .item-holder-first > img, .item-holder-second > img {
+        min-height: 100%;
+    }
 }
 
 h2.item-title {

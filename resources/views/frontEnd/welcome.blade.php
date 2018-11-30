@@ -56,28 +56,28 @@
         {{-- Welcome Search / Ending --}}
         <div class="container">
             <div class="row welcome-footer-slogans">
-                <div class="col-md-3">
+                <div class="col-md-3 col-xs-3">
                     <i class="fas fa-gift"></i>
                     <h2>The best selection</h2>
-                    <span>More than 1000 things to do</span>
+                    <span class="slogan-text">More than 1000 things to do</span>
                 </div>
-                <div class="col-md-3">
+                <div class="col-md-3 col-xs-3">
                 <span class="fa-stack">
                     <i class="fa fa-certificate fa-stack-2x"></i>
                     <i class="fa fa-usd fa-inverse fa-stack-1x"></i>
                 </span>
                     <h2>The lowest prices</h2>
-                    <span>We guarantee it!</span>
+                    <span class="slogan-text">We guarantee it!</span>
                 </div>
-                <div class="col-md-3">
+                <div class="col-md-3 col-xs-3">
                     <i class="fas fa-shopping-cart"></i>
                     <h2>Fast & easy booking</h2>
-                    <span>Book online to lock in your tickets</span>
+                    <span class="slogan-text">Book online to lock in your tickets</span>
                 </div>
-                <div class="col-md-3">
+                <div class="col-md-3 col-xs-3">
                     <i class="fas fa-user-clock"></i>
                     <h2>Customer service</h2>
-                    <span>English speaking customer service representatives!!</span>
+                    <span class="slogan-text">English speaking customer service representatives!!</span>
                 </div>
             </div>
         </div>
@@ -86,7 +86,7 @@
 @section('content')
     <div class="row">
         <div class="container">
-            <h1 class="welcome-header-title">Top Tours</h1>
+            <h1 class="main-title-center">Top Tours</h1>
             <?php
             $chunks = $topItems->chunk(3);
             $slice_1 = $chunks->slice(0, 2);

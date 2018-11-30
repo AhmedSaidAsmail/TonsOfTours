@@ -17,6 +17,7 @@
 </head>
 <body id="exc">
 @include('frontEnd.layouts.notify')
+@include('frontEnd.layouts._mobile_header')
 @yield('extra-plugged-in')
 @yield('header-nav')
 @yield('content')
@@ -42,7 +43,7 @@
                 </div>
                 <div class="row">
                     <form>
-                        <div class="col-md-10 col-sm-10 col-xs-10" style="padding-left: 0px; padding-right: 0px;">
+                        <div class="col-md-10 col-sm-10 col-xs-10" style="padding-left: 0; padding-right: 0;">
                             <input type="text" value="" class="form-control" placeholder="Your mail">
                         </div>
                         <div class="col-md-2 col-sm-2 col-xs-2" style="padding-left: 5px;">
@@ -90,8 +91,21 @@
         </div>
     </div>
 </div>
-<script src="{{asset('js/jquery-2.2.3.min.js')}}"></script>
+<script src="https://code.jquery.com/jquery-2.2.4.min.js"></script>
 <script src="{{asset('js/bootstrap.min.js')}}"></script>
+<script>
+    $(".main-nav-lunch").on('click', function () {
+        var parent = $(this).closest('.mobile-header');
+        var mainNav = $('section.main-nav');
+        if (parent.hasClass('lunched')) {
+            parent.removeClass('lunched');
+            mainNav.removeClass('lunched');
+            return true;
+        }
+        parent.addClass('lunched');
+        mainNav.addClass('lunched');
+    });
+</script>
 @yield('_nav_js')
 @yield('_extra_js')
 </body>

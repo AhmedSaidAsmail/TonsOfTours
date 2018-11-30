@@ -92,16 +92,18 @@
                             <span>No additional fees.</span>
                             <a href="{{route('cart.checkout')}}"
                                class="btn btn-info btn-block">Checkout</a>
-                            <div class="cart-all-bottom">
-                                <a href="{{route('customer.register')}}">Create an account</a>
-                                or
-                                <a href="{{route('customer.login')}}" id="login_now">log in</a>
-                                <span>for faster checkout.</span>
-                            </div>
+                            @if(!Auth::guard('customer')->check())
+                                <div class="cart-all-bottom">
+                                    <a href="{{route('customer.register')}}">Create an account</a>
+                                    or
+                                    <a href="#" id="login">log in</a>
+                                    <span>for faster checkout.</span>
+                                </div>
+                            @endif
                         </div>
                     </div>
                 </div>
-                @else
+            @else
                 <div class="empty-cart">
                     <h1>Your cart is empty.</h1>
                     <span>The world is waiting for you. Fill up on amazing things to do in egypt.</span>

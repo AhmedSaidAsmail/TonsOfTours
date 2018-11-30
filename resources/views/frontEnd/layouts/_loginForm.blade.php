@@ -23,14 +23,14 @@
                     <input type="password" class="form-control" name="password" value="" placeholder="Password">
                 </div>
                 <div class="row">
-                    <div class="col-md-6">
+                    <div class="col-md-6 col-xs-6">
                         <div class="checkbox icheck">
                             <label>
                                 <input type="checkbox" name="remember"> {{translate('Remember_Me')}}
                             </label>
                         </div>
                     </div>
-                    <div class="col-md-6 text-right">
+                    <div class="col-md-6 col-xs-6 text-right">
                         <a href="{{route('customer.password.reset')}}" class="reset-password">
                             {{translate('Forgot_your_password?')}}
                         </a>

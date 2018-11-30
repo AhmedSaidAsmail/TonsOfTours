@@ -343,7 +343,7 @@
                     <section>
                         @foreach($cart->items()->all() as $key=>$item)
                             <div class="row checkout-review-item">
-                                <div class="col-md-7 checkout-review-item-details">
+                                <div class="col-md-7 col-xs-7 checkout-review-item-details">
                                     <h2>{{$item->model->title}}</h2>
                                     @if($item->st_num)
                                         <span>
@@ -362,7 +362,7 @@
                                     </span>
                                     @endif
                                 </div>
-                                <div class="col-md-5 checkout-review-item-prices">
+                                <div class="col-md-5 col-xs-5 checkout-review-item-prices">
                                     <span>{{translate('Total')}}
                                         :</span> {{$item->currency}}{{sprintf('%.2f',$item->total)}}
                                     @if($item->deposit>0)

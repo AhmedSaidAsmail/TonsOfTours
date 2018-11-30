@@ -82,6 +82,9 @@
                 <nav class="navbar">
                     <div class="container-fluid">
                         <ul class="nav navbar-nav navbar-right">
+                            <li class="responsive-title">
+                                {{translate('MAIN MENU')}}
+                            </li>
                             @foreach(activeMainCategories() as $activeMainCategory)
                                 <li>
                                     <a href="{{route('home.mainCategory.show',['name'=>$activeMainCategory->name,'id'=>$activeMainCategory->id])}}"
@@ -89,6 +92,7 @@
                                         <i class="fa {{$activeMainCategory->icon}}"></i>
                                         {{$activeMainCategory->title}}
                                     </a>
+                                    <span class="pull-right-container">  </span>
                                     @if(count($activeMainCategory->categories)>0)
                                         <div class="sub-nav">
                                             <div class="row">
@@ -120,6 +124,11 @@
                             <li>
                                 <a href="#" class="additional-link">
                                     <i class="fas fa-phone-square"></i> {{Vars::getVar('Special_Assistance')}}
+                                </a>
+                            </li>
+                            <li class="responsive-item">
+                                <a href="">
+                                    <i class="fas fa-question-circle"></i> Help
                                 </a>
                             </li>
                         </ul>
