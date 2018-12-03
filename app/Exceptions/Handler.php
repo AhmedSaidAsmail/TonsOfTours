@@ -27,12 +27,12 @@ class Handler extends ExceptionHandler
     ];
 
     /**
-     * Report or log an exception.
+     *  Report or log an exception.
      *
      * This is a great spot to send exceptions to Sentry, Bugsnag, etc.
      *
-     * @param  \Exception $exception
-     * @return void
+     * @param Exception $exception
+     * @throws Exception
      */
     public function report(Exception $exception)
     {
@@ -52,9 +52,9 @@ class Handler extends ExceptionHandler
             Session::set('error505', $exception->getMessage());
             return redirect()->route('Error505');
         }
-//        if($exception instanceof NotFoundHttpException){
-////            return redirect()->route('error.404');
-//        }
+        if($exception instanceof NotFoundHttpException){
+            return redirect()->route('error.404');
+        }
         return parent::render($request, $exception);
     }
 

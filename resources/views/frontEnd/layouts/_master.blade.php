@@ -25,7 +25,7 @@
 <div class="row footer">
     <div class="container" style="position: relative;">
         <div class="row">
-            @foreach( App\MyModels\Admin\Topic::where('footer',1)->orderBy('arrangement','desc')->limit(9)->get()->chunk(3) as $footerChunk)
+            @foreach( App\Models\Topic::where('footer',1)->orderBy('arrangement','desc')->limit(9)->get()->chunk(3) as $footerChunk)
                 <div class="col-md-3 col-sm-6 col-xs-6">
                     <ul>
                         @foreach($footerChunk as $footer)
@@ -55,10 +55,10 @@
                 </div>
                 <div class="row footer-social-links">
                     <div class="col-md-12 col-sm-8 col-xs-8">
-                        <a href="{{Vars::getVar('facebook-link')}}"> <i class="fa fa-facebook"></i></a>
-                        <a href="{{Vars::getVar('twitter-link')}}"> <i class="fa fa-twitter"></i></a>
-                        <a href="{{Vars::getVar('google-link')}}"> <i class="fa fa-google-plus"></i></a>
-                        <a href="{{Vars::getVar('pin-link')}}"> <i class="fa fa-pinterest-p"></i></a>
+                        <a href="{{translate('facebook-link')}}"> <i class="fa fa-facebook"></i></a>
+                        <a href="{{translate('twitter-link')}}"> <i class="fa fa-twitter"></i></a>
+                        <a href="{{translate('google-link')}}"> <i class="fa fa-google-plus"></i></a>
+                        <a href="{{translate('pin-link')}}"> <i class="fa fa-pinterest-p"></i></a>
                         <a href="#"> <i class="fa fa-feed"></i></a>
                     </div>
                 </div>
@@ -70,24 +70,24 @@
     © 2017 {{Request::getHost()}} All Rights Reserved
 </div>
 <div class="row footer-share-bottom">
-    <div class="col-md-3 footer-share-div twiter-share" onclick="location.href = '{{Vars::getVar('twitter-link')}}'">
+    <div class="col-md-3 footer-share-div twiter-share" onclick="location.href = '{{translate('twitter-link')}}'">
         <div class="footer-share-text">
-            <i class="fa fa-twitter"></i>{{Vars::getVar('FOLLOW_US')}}
+            <i class="fa fa-twitter"></i>{{translate('FOLLOW_US')}}
         </div>
     </div>
-    <div class="col-md-3 footer-share-div facebook-share" onclick="location.href = '{{Vars::getVar('facebook-link')}}'">
+    <div class="col-md-3 footer-share-div facebook-share" onclick="location.href = '{{translate('facebook-link')}}'">
         <div class="footer-share-text">
-            <i class="fa fa-facebook"></i>{{Vars::getVar('LIKE_US')}}
+            <i class="fa fa-facebook"></i>{{translate('LIKE_US')}}
         </div>
     </div>
-    <div class="col-md-3 footer-share-div footer-google" onclick="location.href = '{{Vars::getVar('google-link')}}'">
+    <div class="col-md-3 footer-share-div footer-google" onclick="location.href = '{{translate('google-link')}}'">
         <div class="footer-share-text">
-            <i class="fa fa-google-plus"></i>{{Vars::getVar('CONNECT')}}
+            <i class="fa fa-google-plus"></i>{{translate('CONNECT')}}
         </div>
     </div>
-    <div class="col-md-3 footer-share-div footer-pin" onclick="location.href = '{{Vars::getVar('pin-link')}}'">
+    <div class="col-md-3 footer-share-div footer-pin" onclick="location.href = '{{translate('pin-link')}}'">
         <div class="footer-share-text">
-            <i class="fa fa-pinterest-p"></i>{{Vars::getVar('PIN_US')}}
+            <i class="fa fa-pinterest-p"></i>{{translate('PIN_US')}}
         </div>
     </div>
 </div>

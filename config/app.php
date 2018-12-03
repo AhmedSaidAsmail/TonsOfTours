@@ -140,7 +140,6 @@ return [
         Illuminate\Validation\ValidationServiceProvider::class,
         Illuminate\View\ViewServiceProvider::class,
         Intervention\Image\ImageServiceProvider::class,
-        App\Src\Facades\UploadFacadesServiceProvider::class,
         /*
          * Package Service Providers...
          */
@@ -200,8 +199,5 @@ return [
         'Validator'     => Illuminate\Support\Facades\Validator::class,
         'View'          => Illuminate\Support\Facades\View::class,
         'Image'         => Intervention\Image\Facades\Image::class,
-        'UploadFacades' => App\Src\Facades\UploadFacades::class,
-        'home'          => App\Http\Controllers\Web\HomeController::class,
-        'Vars'          => App\Http\Controllers\Admin\VarsController::class,
     ],
 ];

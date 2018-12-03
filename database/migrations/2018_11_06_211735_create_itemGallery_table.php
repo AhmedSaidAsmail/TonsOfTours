@@ -3,7 +3,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateDetailsTable extends Migration {
+class CreateItemGalleryTable extends Migration {
 
     /**
      * Run the migrations.
@@ -11,15 +11,11 @@ class CreateDetailsTable extends Migration {
      * @return void
      */
     public function up() {
-        Schema::create('details', function (Blueprint $table) {
+        Schema::create('itemGallery', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('item_id')->unique()->unsigned();
+            $table->integer('item_id')->unsigned();
             $table->foreign('item_id')->references('id')->on('items')->onDelete('cascade');
-            $table->time('started_at');
-            $table->time('ended_at')->nullable();
-            $table->string('availability');
-            $table->string('txt')->nullable();
-            $table->rememberToken();
+            $table->string('img');
             $table->timestamps();
         });
     }
@@ -29,7 +25,7 @@ class CreateDetailsTable extends Migration {
      * @return void
      */
     public function down() {
-        Schema::dropIfExists('details');
+        Schema::dropIfExists('itemsGallries');
     }
 
 }

@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class Reservation extends Model
 {
 
-    protected $fillable = ['unique_id', 'customer_id', 'paymentId', 'orderNumber', 'payment_method', 'approval', 'date', 'total', 'deposit'];
+    protected $fillable = ['unique_id', 'customer_id', 'paymentId', 'orderNumber', 'payment_method', 'approval', 'date', 'total', 'deposit','currency'];
 
     public function customer()
     {

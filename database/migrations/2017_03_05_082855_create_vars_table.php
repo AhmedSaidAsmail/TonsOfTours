@@ -11,10 +11,10 @@ class CreateVarsTable extends Migration {
      * @return void
      */
     public function up() {
-        Schema::create('variables', function (Blueprint $table) {
+        Schema::create('vars', function (Blueprint $table) {
             $table->increments('id');
             $table->text("word");
-            $table->text("lang");
+            $table->text("translate");
             $table->timestamps();
         });
     }

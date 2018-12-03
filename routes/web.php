@@ -87,6 +87,8 @@ Route::group(['prefix' => 'admin', 'middleware' => 'auth:web'], function () {
     Route::resource('/reservation', 'Admin\ReservationController', ['expect' => ['edit', 'destroy']]);
     Route::get('/reservation/items/archive', 'Admin\ReservationController@indexArchive')->name('reservation.archive');
     Route::put('/reservation/items/archive', 'Admin\ReservationController@archive')->name('reservation.archive');
+    Route::get('/profile/change-details', 'Admin\ProfileController@showProfileForm')->name('admin.profile.edit');
+    Route::put('/profile/change-details', 'Admin\ProfileController@update')->name('admin.profile.update');
 });
 
 //Auth::routes();

@@ -34,12 +34,13 @@
                             <form method="post" action="{{route('customer.register')}}" autocomplete="off">
                                 {{ csrf_field() }}
                                 <div class="form-group">
-                                    <input type="text" class="form-control" name="name" value="" placeholder="Full Name"
+                                    <input type="text" class="form-control" name="name" value="{{old('name')}}"
+                                           placeholder="Full Name"
                                            autocomplete="off">
                                 </div>
                                 <div class="form-group {{ $errors->has('name') ? ' has-error' : '' }}">
                                     <input type="email" class="form-control" name="email"
-                                           value="" placeholder="Email address" autocomplete="off">
+                                           value="{{old('email')}}" placeholder="Email address" autocomplete="off">
                                 </div>
                                 <div class="form-group">
                                     <input type="password" class="form-control" name="password" value=""
@@ -47,7 +48,7 @@
                                 </div>
                                 <div class="form-group">
                                     <input type="password" class="form-control" name="password_confirmation" value=""
-                                           placeholder="Password">
+                                           placeholder="Password Confirmation">
                                 </div>
                                 <div class="row">
                                     <div class="col-md-12 text-left" style="padding-left: 0px;">

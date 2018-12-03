@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\MyModels\Admin\Variable as Vars;
+use App\Models\Vars as Vars;
 use Illuminate\Support\Facades\Session;
 
 class VarsController extends Controller
@@ -114,8 +114,8 @@ class VarsController extends Controller
     public static function translate($word)
     {
         $translated = Vars::where('word', strtolower($word))->first();
-        if (isset($translated->lang)) {
-            return ucfirst($translated->lang);
+        if (isset($translated->translate)) {
+            return ucfirst($translated->translate);
         }
         return str_replace("_", " ", $word);
 

@@ -123,7 +123,7 @@
                             @endforeach
                             <li>
                                 <a href="#" class="additional-link">
-                                    <i class="fas fa-phone-square"></i> {{Vars::getVar('Special_Assistance')}}
+                                    <i class="fas fa-phone-square"></i> {{translate('Special_Assistance')}}
                                 </a>
                             </li>
                             <li class="responsive-item">
