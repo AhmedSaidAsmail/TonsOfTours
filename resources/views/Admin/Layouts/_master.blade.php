@@ -174,8 +174,12 @@
                                 <i class="fa fa-circle-o"></i> Admin Profile
                             </a>
                         </li>
+                        <li>
+                            <a href="{{route('setting.payment.payment-setting.index')}}">
+                                <i class="fa fa-circle-o"></i> Payment Settings
+                            </a>
+                        </li>
                         <li><a href="{{ route('Paypal.index') }}"><i class="fa fa-circle-o"></i>PayPal Settings</a></li>
-                        <li><a href="{{ route('leftsSide.index') }}"><i class="fa fa-circle-o"></i>Left Side Icons</a>
                         </li>
                         <li><a href="{{ route('vars.index') }}"><i class="fa fa-circle-o"></i>Languages</a></li>
 

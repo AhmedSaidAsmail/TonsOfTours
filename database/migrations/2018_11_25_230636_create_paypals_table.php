@@ -15,7 +15,6 @@ class CreatePaypalsTable extends Migration
     {
         Schema::create('paypals', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('currency')->default('USD');
             $table->boolean('sandbox')->default(1);
             $table->string('client_id');
             $table->string('secret');

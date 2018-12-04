@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateTwoCheckOutsTable extends Migration
+class CreatePaymentSettingsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,13 +13,11 @@ class CreateTwoCheckOutsTable extends Migration
      */
     public function up()
     {
-        Schema::create('two_check_outs', function (Blueprint $table) {
+        Schema::create('payment_settings', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('partner_id');
-            $table->string('public_key');
-            $table->string('private_key');
-            $table->boolean('ssl');
-            $table->string('sandbox');
+            $table->integer('default_percentage');
+            $table->string('currency');
+            $table->string('currency_symbol');
             $table->timestamps();
         });
     }
@@ -31,6 +29,6 @@ class CreateTwoCheckOutsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('two_check_outs');
+        Schema::dropIfExists('payment_settings');
     }
 }

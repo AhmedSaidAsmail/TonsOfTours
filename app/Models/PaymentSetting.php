@@ -4,9 +4,9 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class TwoCheckOut extends Model
+class PaymentSetting extends Model
 {
     protected $fillable = [
-        'partner_id', 'public_key', 'private_key', 'ssl', 'sandbox'
+        'default_percentage', 'currency', 'currency_symbol'
     ];
 }
