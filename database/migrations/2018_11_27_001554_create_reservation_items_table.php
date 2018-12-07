@@ -20,7 +20,6 @@ class CreateReservationItemsTable extends Migration
             $table->integer('item_id')->unsigned();
             $table->foreign('item_id')->references('id')->on('items')->onDelete('cascade');
             $table->string('date');
-            $table->string('currency');
             $table->integer('st_num');
             $table->integer('st_price');
             $table->string('st_name');

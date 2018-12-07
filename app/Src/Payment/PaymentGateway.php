@@ -1,21 +1,18 @@
 <?php
 
-namespace App\Src\Payment;
+namespace Payment;
 
 
-use App\Src\Payment\Exception\NoSettingFoundException;
-use App\Src\Payment\Exception\PaymentException;
-use Illuminate\Http\Request;
+use Payment\Exception\NoSettingFoundException;
+use Payment\Exception\PaymentException;
 
 interface PaymentGateway
 {
     /**
      * PaymentGateway constructor.
-     * @param Request $request
-     * @param $total
-     * @param $redirectLink
+     * @param Payment $payment
      */
-    public function __construct(Request $request, $total, $redirectLink);
+    public function __construct(Payment $payment);
 
     /**
      * @return void

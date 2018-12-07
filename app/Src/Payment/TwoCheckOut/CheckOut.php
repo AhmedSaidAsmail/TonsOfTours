@@ -1,40 +1,32 @@
 <?php
 
-namespace App\Src\Payment\TwoCheckOut;
+namespace Payment\TwoCheckOut;
 
-use App\Src\Payment\Exception\NoSettingFoundException;
-use App\Src\Payment\Exception\PaymentException;
-use App\Src\Payment\PaymentGateway;
+use Payment\Exception\NoSettingFoundException;
+use Payment\Exception\PaymentException;
+use Payment\Payment;
+use Payment\PaymentGateway;
 use Twocheckout;
 use Twocheckout_Charge;
-use Illuminate\Http\Request;
-use App\Models\TwoCheckOut as TowCheckOutModel;
+
 
 class CheckOut implements PaymentGateway
 {
     /**
-     * @var string $privateKey 2CheckOut Private Key
+     * @var Payment $payment
      */
-    private $privateKey;
+    public $payment;
+    /**
+     * @var array stored TwoCheckout setting
+     */
+    public $two_checkout_setting = [];
+
     /**
      * @var string $sellerId 2CheckOut Seller Id
      */
     public $sellerId;
-    /**
-     * @var bool $verifySSL
-     */
-    private $verifySSL;
-    /**
-     * @var bool $sandbox
-     */
-    private $sandbox;
-    /**
-     * @var string $currency
-     */
-    public $currency;
-    /**
-     * @var Request $request
-     */
+
+
     /**
      * @var Payer $billingAddr ;
      */
@@ -47,98 +39,55 @@ class CheckOut implements PaymentGateway
      * @var Seller $seller
      */
     private $seller;
-    /**
-     * @var int $total
-     */
-    public $total;
-    /**
-     * @var Request $request
-     */
-    public $request;
-    /**
-     * @var string $redirectLink response link redirect
-     */
-    private $redirectLink;
+//    /**
+//     * @var int $total
+//     */
+//    public $total;
+//    /**
+//     * @var Request $request
+//     */
+//    public $request;
+//    /**
+//     * @var string $redirectLink response link redirect
+//     */
+//    private $redirectLink;
 
 
     /**
      * CheckOut constructor.
-     * @param Request $request
-     * @param int $total
-     * @param string $redirectLink
-     * @return void
+     * @param Payment $payment
      */
-    public function __construct(Request $request, $total, $redirectLink)
+    public function __construct(Payment $payment)
     {
-        $this->request = $request;
-        $this->total = $total;
-        $this->redirectLink = $redirectLink;
+//        $this->request = $payment->request;
+//        $this->total = $payment->total;
+//        $this->redirectLink = $payment->redirectLink;
+        $this->payment = $payment;
     }
 
     /**
-     * @return void
+     * @return $this
      * @throws NoSettingFoundException
      */
     public function init()
     {
-        if ($this->checkModelSetting() !== false) {
-            $this->setCheckOutSettings($this->checkModelSetting());
-            return;
+        if ($this->payment->hasTwoCheckout) {
+            $this->two_checkout_setting = $this->payment->twoCheckout->getAllAttr();
+            return $this;
         }
         throw new NoSettingFoundException('No setting found for 2Checkout Payment Gateway in your Database');
     }
 
-    /**
-     * @return TowCheckOutModel|bool
-     */
-    private function checkModelSetting()
-    {
-        $seating = TowCheckOutModel::first();
-        if (!is_null($seating)) {
-            return $seating;
-        }
-        return false;
-    }
 
-    /**
-     * @param TowCheckOutModel $settingModel
-     */
-    private function setCheckOutSettings(TowCheckOutModel $settingModel)
+    public function pay($billingAddress = 'billingAddress', $shippingAddress = 'shippingAddress')
     {
-        $this->sellerId = $settingModel->partner_id;
-        $this->privateKey = $settingModel->private_key;
-        $this->verifySSL = $settingModel->ssl;
-        $this->sandbox = $settingModel->sandbox;
-        $this->currency = $settingModel->currency;
-    }
-
-    private function setPayerGivenArray($detailsKey)
-    {
-        $billingAddress = [];
-        if ($this->request->has($detailsKey)) {
-            $billingAddress = $this->request->get($detailsKey);
-        }
-        return array_merge(['email' => $this->request->get('email'),
-                'phoneNumber' => $this->request->get('phone'),
-                'name' => $this->request->get('credit')['name'],
-                'country' => $this->request->get('credit')['country']]
-            , $billingAddress);
-
-    }
-
-    /**
-     * @return array|false|mixed|string
-     * @throws PaymentException
-     */
-    public function pay()
-    {
-        $this->billingAddr = new Payer($this->setPayerGivenArray('billingAddress'));
-        $this->shippingAddr = new Payer($this->setPayerGivenArray('shippingAddress'));
+        $this->billingAddr = new Payer($this->payment->request, $billingAddress);
+        $this->shippingAddr = new Payer($this->payment->request, $shippingAddress);
         $this->seller = new Seller($this);
-//        return $this->shippingAddr;
         return $this->checkOutPay($this->seller->__toArray());
 
     }
+
 
     /**
      * @param array $sellerDetails
@@ -148,12 +97,12 @@ class CheckOut implements PaymentGateway
     public function checkOutPay(array $sellerDetails)
     {
         try {
-            Twocheckout::privateKey($this->privateKey);
-            Twocheckout::sellerId($this->sellerId);
-            Twocheckout::verifySSL($this->verifySSL);
-            Twocheckout::sandbox($this->sandbox);
+            Twocheckout::privateKey($this->two_checkout_setting['private_key']);
+            Twocheckout::sellerId($this->two_checkout_setting['partner_id']);
+            Twocheckout::verifySSL($this->two_checkout_setting['ssl']);
+            Twocheckout::sandbox($this->two_checkout_setting['sandbox']);
             $charge = Twocheckout_Charge::auth($sellerDetails, 'array');
-            return (new CheckoutResponseLink($this->redirectLink))
+            return (new CheckoutResponseLink($this->payment->redirectLink))
                 ->makeResponseQueries($charge['response'])
                 ->make();
 
@@ -163,20 +112,20 @@ class CheckOut implements PaymentGateway
 
     }
 
-    /**
-     * @param array $data
-     * @return null|string
-     */
-    protected function analysisResponseQueries(array $data)
-    {
-        if ($data['responseCode'] == "APPROVED") {
-            $query = http_build_query([
-                'paymentId' => $data['transactionId'],
-                'orderNumber' => $data['orderNumber']
-            ]);
-            return $query;
-        }
-        return null;
-    }
+//    /**
+//     * @param array $data
+//     * @return null|string
+//     */
+//    protected function analysisResponseQueries(array $data)
+//    {
+//        if ($data['responseCode'] == "APPROVED") {
+//            $query = http_build_query([
+//                'paymentId' => $data['transactionId'],
+//                'orderNumber' => $data['orderNumber']
+//            ]);
+//            return $query;
+//        }
+//        return null;
+//    }
 
 }

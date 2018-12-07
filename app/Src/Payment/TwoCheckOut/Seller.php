@@ -1,9 +1,9 @@
 <?php
 
-namespace App\Src\Payment\TwoCheckOut;
+namespace Payment\TwoCheckOut;
 
 
-use App\Src\Payment\Exception\NoArgumentGivenException;
+use Payment\Exception\NoArgumentGivenException;
 
 class Seller
 {
@@ -45,11 +45,11 @@ class Seller
      */
     public function __construct(CheckOut $checkOut)
     {
-        $this->sellerId = $checkOut->sellerId;
+        $this->sellerId = $checkOut->two_checkout_setting['partner_id'];
         $this->merchantOrderId = md5(uniqid(rand(), true));
-        $this->currency = $checkOut->currency;
-        $this->token = $checkOut->request->get('token');
-        $this->total = $checkOut->total;
+        $this->currency = $checkOut->payment->currency;
+        $this->token = $checkOut->payment->request->get('token');
+        $this->total = $checkOut->payment->total;
         $this->shippingAddr = $checkOut->shippingAddr->__toArray();
         $this->billingAddr = $checkOut->billingAddr->__toArray();
 

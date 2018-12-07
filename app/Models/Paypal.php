@@ -2,11 +2,15 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Model;
+use Payment\Models\PaymentGateway;
 
-class Paypal extends Model
+class Paypal extends PaymentGateway
 {
     protected $fillable = [
-        'sandbox', 'client_id', 'secret', 'description'
+        'sandbox',
+        'client_id',
+        'secret',
+        'description'
     ];
+
 }

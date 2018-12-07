@@ -8,6 +8,7 @@ use App\Models\MainCategory;
 use App\Src\WishList\WishList;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\App;
 
 class FrontEndController extends Controller
 {
@@ -23,6 +24,7 @@ class FrontEndController extends Controller
             ->limit(12)
             ->get();
         return view('frontEnd.welcome', ['topItems' => $topItems]);
+//        dd(payment()->twoCheckout->getAllAttr());
     }
 
     /**

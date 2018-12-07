@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Src\Payment\Exception;
+namespace Payment\Exception;
 
 
 class NoSettingFoundException extends \Exception

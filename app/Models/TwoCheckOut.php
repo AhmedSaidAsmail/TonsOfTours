@@ -2,11 +2,15 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Model;
+use Payment\Models\PaymentGateway;
 
-class TwoCheckOut extends Model
+class TwoCheckOut extends PaymentGateway
 {
     protected $fillable = [
-        'partner_id', 'public_key', 'private_key', 'ssl', 'sandbox'
+        'partner_id',
+        'public_key',
+        'private_key',
+        'ssl',
+        'sandbox'
     ];
 }

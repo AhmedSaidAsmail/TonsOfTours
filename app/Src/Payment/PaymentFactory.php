@@ -1,28 +1,25 @@
 <?php
 
-namespace App\Src\Payment;
+namespace Payment;
 
 
-use App\Src\Payment\TwoCheckOut\CheckOut;
-use App\Src\Payment\Paypal\Paypal;
-use Illuminate\Http\Request;
+use Payment\TwoCheckOut\CheckOut;
+//use App\Src\Payment\Paypal\Paypal;
 
 class PaymentFactory
 {
     /**
-     * @param Request $request
-     * @param $total
-     * @param $payment_method
-     * @param string $redirectLink
+     * @param Payment $payment
      * @return PaymentGateway
      */
-    public static function factory(Request $request, $total, $payment_method, $redirectLink)
+    public static function factory(Payment $payment)
     {
-        switch ($payment_method) {
+        switch ($payment->payment_method) {
             case 'credit':
-                return new CheckOut($request, $total, $redirectLink);
+                return new CheckOut($payment);
             case "paypal":
-                return new Paypal($request, $total, $redirectLink);
+//                return new Paypal($request, $total, $redirectLink);
+
         }
 
     }

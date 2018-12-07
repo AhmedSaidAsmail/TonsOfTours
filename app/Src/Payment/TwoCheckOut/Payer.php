@@ -1,16 +1,28 @@
 <?php
 
-namespace App\Src\Payment\TwoCheckOut;
+namespace Payment\TwoCheckOut;
 
-use App\Src\Payment\Exception\NoArgumentGivenException;
+use Illuminate\Http\Request;
+use Payment\Exception\NoArgumentGivenException;
 
 class Payer
 {
     /**
-     * array fields Fields name
+     * @var array $fillable All Returning Data
      */
-    const fields = ["name", "addrLine1", "city", "state", "zipCode", "country", "email", "phoneNumber"
-    ];
+    private $fillable = ["name", "addrLine1", "city", "state", "zipCode", "country", "email", "phoneNumber"];
+    /**
+     * @var array $requiredFields Required fields to processed Payment
+     */
+    private $requiredFields = ['email', 'name', 'phone', 'country'];
+    /**
+     * @var string $request_key Request key reserved for bayer details
+     */
+    private $request_key;
+    /**
+     * @var Request $request Given Data
+     */
+    private $request;
     /**
      * @var string $city
      */
@@ -50,25 +62,106 @@ class Payer
 
     /**
      * Payer constructor.
-     * @param array $details
-     * @return void
+     * @param Request $request
+     * @param string $request_key
      */
-    public function __construct(array $details)
+    public function __construct(Request $request, $request_key)
     {
-        $this->details = $details;
+        $this->request = $request;
+        $this->request_key = $request_key;
+        $this->details = $this->initialData();
     }
 
     /**
-     * Setting all payer properties according to given details array
+     * Initial given data from request
+     *
+     * @return array
+     */
+    private function initialData()
+    {
+        $address = [];
+        if ($this->request->has($this->request_key)) {
+            $address = $this->request->get($this->request_key);
+        }
+        return $address;
+
+    }
+
+    /**
+     * Check if Data has the key
+     *
+     * @param $key
+     * @return bool
+     */
+    private function addressHasKey($key)
+    {
+        return array_key_exists($key, $this->details);
+    }
+
+    /**
+     * Setting field from the request if not exists in given data
+     *
+     * @param $key
+     * @return mixed
+     * @throws NoArgumentGivenException
+     */
+    private function setKeyFromRequest($key)
+    {
+        if ($this->request->has($key)) {
+            return $this->request->get($key);
+        }
+        throw new NoArgumentGivenException(sprintf('Request has no given %s', $key));
+    }
+
+    /**
+     *Setting the Payer key
+     *
+     * @param $key
+     */
+    private function setAddressKey($key)
+    {
+        if (!$this->addressHasKey($key)) {
+            $this->details[$key] = $this->setKeyFromRequest($key);
+        }
+    }
+
+    /**
+     * Checking and Setting the required fields
+     *
+     * @return $this
+     */
+    private function setRequiredFields()
+    {
+        array_map(function ($field) {
+            $this->setAddressKey($field);
+        }, $this->requiredFields);
+        return $this;
+    }
+
+    /**
+     * Setting Payer Properties
      *
      */
-    private function setProps()
+    private function setProperties()
     {
-        array_map(function ($key) {
-            if (property_exists(self::class, $key)) {
-                $this->{$key} = $this->details[$key];
+        array_map(function ($field) {
+            if (property_exists(slef::class, $field)) {
+                $this->setProperty($field);
             }
-        }, array_keys($this->details));
+
+        }, $this->fillable);
+    }
+
+    /**
+     * Setting Specified Property
+     *
+     * @param $property
+     */
+    private function setProperty($property)
+    {
+        if ($this->addressHasKey($property)) {
+            $this->{$property} = $this->details[$property];
+        }
     }
 
     /**
@@ -78,9 +171,10 @@ class Payer
      */
     public function __toArray()
     {
-        $this->setProps();
+        $this->setRequiredFields()
+            ->setProperties();
         $return = [];
-        array_filter(self::fields, function ($field) use (&$return) {
+        array_filter($this->fillable, function ($field) use (&$return) {
             if (property_exists(self::class, $field) && !is_null($this->{$field})) {
                 $return[$field] = $this->{$field};
             } else {

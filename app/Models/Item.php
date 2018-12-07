@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Payment\Deposit\ProductInterface;
 
 class Item extends Model implements ProductInterface
 {
@@ -17,7 +18,8 @@ class Item extends Model implements ProductInterface
         'description',
         'img',
         'intro',
-        'offer'];
+        'offer'
+    ];
 
     public function category()
     {
@@ -78,5 +80,34 @@ class Item extends Model implements ProductInterface
         $this->includes()->delete();
         $this->excludes()->delete();
         return parent::delete();
+    }
+
+    /**
+     * @return bool
+     */
+    public function hasDeposit()
+    {
+        $details = $this->hasOne(ItemsDetail::class)->first();
+        if (!is_null($details)) {
+            return $details->has_deposit;
+        }
+        return false;
+    }
+
+    /**
+     * @return int
+     */
+    public function depositPercentage()
+    {
+        return $this->hasOne(ItemsDetail::class)->first()->deposit_percentage;
+    }
+
+    public function cheapestPrise()
+    {
+        if (!$this->packages()->get()->isEmpty()) {
+            return $this->packages()->orderBy('st_price', 'ASC')->first();
+        }
+        return $this->price()->first();
+
     }
 }

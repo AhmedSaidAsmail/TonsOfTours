@@ -10,13 +10,17 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Mail;
+use Shopping\Cart\CartManager;
 
 class CartController extends Controller
 {
-    public function index(Request $request)
+    /**
+     * @return \Illuminate\Http\Response
+     */
+    public function index()
     {
-        $cart = new Cart($request);
-        return view('frontEnd.cart.index', ['cart' => $cart->all()]);
+        $cart = shoppingCart()->fetch('items');
+        return view('frontEnd.cart.index', ['cart' => $cart]);
     }
 
     /**
@@ -41,12 +45,9 @@ class CartController extends Controller
         ]);
     }
 
-    public function store(Request $request)
+    public function store()
     {
-        $dat = $request->all();
-        $item = Item::find($dat['item_id']);
-        $cart = new Cart($request);
-        $cart->add(array_merge($dat, ['model' => $item]));
+        shoppingCart()->add('items')->save();
         return redirect()->route('cart.index');
     }
 
@@ -84,28 +85,31 @@ class CartController extends Controller
     /**
      * Removing item from cart
      *
-     * @param Request $request
+     * @param string $collection
      * @param $key
      * @return \Illuminate\Http\RedirectResponse
      */
 
-    public function itemRemove(Request $request, $key)
+    public function itemRemove($collection, $key)
     {
-        $cart = new Cart($request);
-        $cart->remove($key);
-        return redirect()->route('cart.index');
+        $cart = shoppingCart()->fetch($collection);
+        try {
+            $cart->remove($key);
+        } catch (\Exception $e) {
+            return redirect()->route('cart.index')->with('failure', $e->getMessage());
+        }
+        return redirect()->route('cart.index')->with('success', 'Item has been removed successfully');
     }
 
     /**
      * Displaying Checkout Form
      *
-     * @param Request $request
      * @return \Illuminate\Http\Response
      */
-    public function checkout(Request $request)
+    public function checkout()
     {
-        $cart = new Cart($request);
-        return view('frontEnd.cart.checkout', ['cart' => $cart->all()]);
+        $cart = shoppingCart()->fetch('items');
+        return view('frontEnd.cart.checkout', ['cart' => $cart]);
     }
 
     /**
@@ -136,7 +140,8 @@ class CartController extends Controller
         $data = $request->all();
         if (isset($data['approval']) && $data['approval'] == "success") {
             try {
-                $reservation = App::make(ReservationController::class)->update($request, $reservation_id, $reservation_unique_id);
+                $reservation = App::make(ReservationController::class)->update($request, $reservation_id,
+                    $reservation_unique_id);
                 (new Cart($request))->destroy();
                 Mail::to($reservation->customer->email)
                     ->send(new CustomerNotificationMail($reservation, $request));

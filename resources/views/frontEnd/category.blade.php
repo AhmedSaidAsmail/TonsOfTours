@@ -52,9 +52,9 @@
                                 <div class="row item-container-footer">
                                     <div class="col-md-6 col-xs-6 col-sm-6 item-footer-price">
                                         @if(isset($item->price))
-                                            {{sprintf('%.2f',$item->price->st_price)}}
+                                            {{sprintf('%.2f',$item->cheapestPrise()->st_price)}}
                                         @endif
-                                        <span>{{ translate('$') }}</span>
+                                        <span>{{ payment()->currency_symbol }}</span>
                                     </div>
                                     <div class="col-md-6 col-xs-6 col-sm-6 item-footer-basket">
                                         <a href="{{$link}}">

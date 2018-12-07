@@ -6,7 +6,7 @@
         <div class="row">
             <div class="col-md-12">
                 <div class="price-starting-from">
-                    <h1>from $60.00</h1>
+                    <h1>from {{ payment()->currency_symbol .sprintf('%.2f',$item->cheapestPrise()->st_price)}}</h1>
                     <a href="">Low Price Guarantee</a>
                 </div>
             </div>

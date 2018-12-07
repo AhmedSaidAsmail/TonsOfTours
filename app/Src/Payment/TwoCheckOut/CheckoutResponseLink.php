@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Src\Payment\TwoCheckOut;
+namespace Payment\TwoCheckOut;
 
-use App\Src\Payment\ResponseLink;
+use Payment\ResponseLink;
 
 class CheckoutResponseLink extends ResponseLink
 {

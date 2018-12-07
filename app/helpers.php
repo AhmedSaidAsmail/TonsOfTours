@@ -114,3 +114,22 @@ if (!function_exists('checkOutSettings')) {
         return null;
     }
 }
+if (!function_exists('payment')) {
+    /**
+     * @return \Payment\Payment
+     */
+    function payment()
+    {
+        return App::make('payment');
+    }
+}
+
+if (!function_exists('shoppingCart')) {
+    /**
+     * @return \Shopping\Cart\CartManager
+     */
+    function shoppingCart()
+    {
+        return App::make('cart');
+    }
+}

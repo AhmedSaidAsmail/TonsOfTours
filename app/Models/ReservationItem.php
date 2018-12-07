@@ -10,7 +10,6 @@ class ReservationItem extends Model
         'reservation_id',
         'item_id',
         'date',
-        'currency',
         'st_num',
         'st_price',
         'st_name',

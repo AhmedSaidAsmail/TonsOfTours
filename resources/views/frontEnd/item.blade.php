@@ -17,12 +17,12 @@
                     <span>{{translate('More_photos')}}</span>
                 </a>
                 <div class="item-gallery">
-                    @foreach($item->gallery as $img)
-                        <a href="{{asset('images/gallery/'.$img->img)}}" data-toggle="lightbox"
-                           data-gallery="{{$item->title}}">
-                            #
-                        </a>
-                    @endforeach
+                    {{--@foreach($item->gallery as $img)--}}
+                        {{--<a href="{{asset('images/gallery/'.$img->img)}}" data-toggle="lightbox"--}}
+                           {{--data-gallery="{{$item->title}}">--}}
+                            {{--#--}}
+                        {{--</a>--}}
+                    {{--@endforeach--}}
                 </div>
                 <ul class="list-inline dir">
                     <?php
@@ -130,11 +130,11 @@
                                 </div>
                                 <div class="col-md-7">
                                     <ul>
-                                        <li>$
-                                            <b>{{$item->price->st_price}}</b> {{translate('Price_per')}} {{$item->price->st_name}}
+                                        <li>{{ payment()->currency_symbol }} <b>{{$item->price->st_price}}</b>
+                                            {{translate('Price_per')}} {{$item->price->st_name}}
                                         </li>
-                                        <li>$
-                                            <b>{{$item->price->sec_price}}</b> {{translate('price_per')}} {{$item->price->sec_name}}
+                                        <li>{{ payment()->currency_symbol }} <b>{{$item->price->sec_price}}</b>
+                                            {{translate('price_per')}} {{$item->price->sec_name}}
                                         </li>
 
                                     </ul>
@@ -156,11 +156,11 @@
                                         </div>
                                         <div class="col-md-7">
                                             <ul>
-                                                <li>$
-                                                    <b>{{$package->st_price}}</b> {{translate('Price_per')}} {{$item->price->st_name}}
+                                                <li>{{ payment()->currency_symbol }} <b>{{$package->st_price}}</b>
+                                                    {{translate('Price_per')}} {{$item->price->st_name}}
                                                 </li>
-                                                <li>$
-                                                    <b>{{$package->sec_price}}</b> {{translate('price_per')}} {{$item->price->sec_name}}
+                                                <li>{{ payment()->currency_symbol }} <b>{{$package->sec_price}}</b>
+                                                    {{translate('price_per')}} {{$item->price->sec_name}}
                                                 </li>
 
                                             </ul>
