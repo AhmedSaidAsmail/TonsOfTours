@@ -18,16 +18,16 @@
         <div class="row booking-details-number">
             <div class="col-md-12">
                 {{$data['st_num']}} {{$item->price->st_name}}
-                × {{translate('$').sprintf("%.2f",$price->st_price)}} {{ payment()->currency }}
+                × {{payment()->currency_symbol.sprintf("%.2f",$price->st_price)}} {{ payment()->currency }}
             </div>
             <div class="col-md-12">
                 {{$data['sec_num']}} {{$item->price->sec_name}}
-                × {{translate('$').sprintf("%.2f",$price->sec_price)}} {{ payment()->currency }}
+                × {{payment()->currency_symbol.sprintf("%.2f",$price->sec_price)}} {{ payment()->currency }}
             </div>
         </div>
         <div class="row booking-details-total">
             <div class="col-md-12">
-                <span>{{translate('Total')}}: {{translate('$').sprintf("%.2f",$total)}} {{ payment()->currency }}</span>
+                <span>{{translate('Total')}}: {{payment()->currency_symbol.sprintf("%.2f",$total)}} {{ payment()->currency }}</span>
                 <button class="btn btn-success btn-block">Add to Cart <i class="fas fa-cart-plus"></i></button>
             </div>
         </div>

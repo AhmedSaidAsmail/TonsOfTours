@@ -1,14 +1,20 @@
 <?php
 
-namespace Payment\TwoCheckOut;
+namespace Payment\TwoCheckout;
 
 
 use Payment\Exception\NoArgumentGivenException;
 
-class Seller
+class TwoCheckoutSeller
 {
     private $fillable = [
-        'sellerId', 'merchantOrderId', 'token', 'currency', 'total', 'billingAddr', 'shippingAddr'
+        'sellerId',
+        'merchantOrderId',
+        'token',
+        'currency',
+        'total',
+        'billingAddr',
+        'shippingAddr'
     ];
     /**
      * @var string $sellerId
@@ -41,17 +47,17 @@ class Seller
 
     /**
      * Seller constructor.
-     * @param CheckOut $checkOut
+     * @param TowCheckout $towCheckout
      */
-    public function __construct(CheckOut $checkOut)
+    public function __construct(TowCheckout $towCheckout)
     {
-        $this->sellerId = $checkOut->two_checkout_setting['partner_id'];
+        $this->sellerId = $towCheckout->payment_gateway_setting['partner_id'];
+        $this->currency = $towCheckout->payment->currency;
+        $this->token = $towCheckout->payment->request->get('token');
+        $this->total = $towCheckout->payment->total;
         $this->merchantOrderId = md5(uniqid(rand(), true));
-        $this->currency = $checkOut->payment->currency;
-        $this->token = $checkOut->payment->request->get('token');
-        $this->total = $checkOut->payment->total;
-        $this->shippingAddr = $checkOut->shippingAddr->__toArray();
-        $this->billingAddr = $checkOut->billingAddr->__toArray();
+        $this->shippingAddr = $towCheckout->shippingAddress;
+        $this->billingAddr = $towCheckout->shippingAddress;
 
 
     }
@@ -59,18 +65,18 @@ class Seller
     /**
      * @return array
      */
-    public function __toArray()
+    public function toArray()
     {
 
-        $return = [];
-        array_filter($this->fillable, function ($field) use (&$return) {
+        $sellerArray = [];
+        array_filter($this->fillable, function ($field) use (&$sellerArray) {
             if (property_exists(self::class, $field) && !is_null($this->{$field})) {
-                $return[$field] = $this->{$field};
+                $sellerArray[$field] = $this->{$field};
             } else {
                 throw new NoArgumentGivenException(sprintf('Can not find the %s key in given data', $field));
             }
         });
-        return $return;
+        return $sellerArray;
 
     }
 

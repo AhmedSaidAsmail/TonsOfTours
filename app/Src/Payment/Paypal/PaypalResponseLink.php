@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Src\Payment\Paypal;
+namespace Payment\Paypal;
 
-use App\Src\Payment\ResponseLink;
+use  Payment\ResponseLink;
 
 class PaypalResponseLink extends ResponseLink
 {

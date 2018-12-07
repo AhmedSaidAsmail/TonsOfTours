@@ -201,5 +201,11 @@ class CartItem
         }
     }
 
+    public function toArray()
+    {
+        return $this->data;
+
+    }
+
 
 }

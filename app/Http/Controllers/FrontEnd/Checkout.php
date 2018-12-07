@@ -9,8 +9,7 @@ use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
 use App\Http\Controllers\Admin\ReservationController;
-use App\Src\Cart\Cart;
-use App\Src\Payment\Payment;
+
 
 class Checkout
 {
@@ -39,16 +38,14 @@ class Checkout
     /**
      * @throws \Exception
      */
-    public function make()
+    public function makeCheckout()
     {
-        $data = $this->request->all();
         $this->init();
         try {
-            $payment = new Payment($this->request, $data, route('cart.checkout.response', [
+            $this->link = payment()->setRedirectLink(route('cart.checkout.response', [
                 'reservation_id' => $this->reservation->id,
                 'reservation_unique_id' => $this->reservation->unique_id
-            ]));
-            $this->link = $payment->pay();
+            ]))->redirect();
         } catch (\Exception $e) {
             throw new \Exception($e->getMessage());
         }
@@ -85,7 +82,8 @@ class Checkout
     {
         if ($this->request->get('deposit') > 0) {
             App::make(CreditCardsController::class)
-                ->store($this->request->get('credit'), $this->customer, $this->request->get('payment_method') == 'credit');
+                ->store($this->request->get('credit'), $this->customer,
+                    $this->request->get('payment_method') == 'credit');
         }
         return $this;
     }
@@ -106,8 +104,7 @@ class Checkout
      */
     private function storeReservationItems(Reservation $reservation)
     {
-        $cart = new Cart($this->request);
-        $cart->store($reservation->items());
+        $reservation->items()->createMany(shoppingCart()->fetch('items')->toArray());
     }
 
     /**

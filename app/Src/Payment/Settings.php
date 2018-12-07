@@ -26,7 +26,7 @@ class Settings
      */
     public $hasPaypal = false;
     /**
-     * @var \App\Models\PaymentGateway $paypalModel
+     * @var \Payment\Models\PaymentGateway $paypalModel
      */
     public $paypal;
     /**
@@ -34,7 +34,7 @@ class Settings
      */
     public $hasTwoCheckout = false;
     /**
-     * @var \App\Models\PaymentGateway $TwoCheckoutModel
+     * @var \Payment\Models\PaymentGateway $TwoCheckoutModel
      */
     public $twoCheckout;
     /**

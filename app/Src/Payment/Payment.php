@@ -8,14 +8,17 @@ use Payment\Deposit\ProductInterface;
 
 
 /**
- * @property boolean $hasPaypal                             Paypal setting exists
- * @property string $currency                               Setting Currency
- * @property int $total                                     Total Deposit due
- * @property string $redirectLink                           Redirect link
+ * Class Payment
+ * @package Payment
  * @property boolean $hasTwoCheckout                        TwoCheckOut setting exists
  * @property \Payment\Models\PaymentGateway $twoCheckout    Stored 2Checkout settings
  * @property string $currency_symbol                        Setting Currency symbol
+ * @property string $currency                               Setting Currency
  * @property string $payment_method                         Returning Setting Payment Method if exists
+ * @property boolean $hasPaypal                             Paypal setting exists
+ * @property \Payment\Models\PaymentGateway $paypal         Stored Paypal settings
+ * @property integer $total                                     Total Deposit due
+ * @property string $redirectLink                           Redirect link
  */
 class Payment
 {
@@ -43,11 +46,24 @@ class Payment
 
     }
 
+    /**
+     * Calculating Product Deposit according to total amount
+     *
+     * @param ProductInterface $product
+     * @param $total
+     * @return float|int
+     */
     public function deposit(ProductInterface $product, $total)
     {
         return (new Deposit($this->setting, $product, $total))->calculate();
     }
 
+    /**
+     * Setting total deposit amount
+     *
+     * @param string $key
+     * @return $this
+     */
     public function setTotalFromRequest($key = "deposit")
     {
         if ($this->request->has($key)) {
@@ -56,6 +72,12 @@ class Payment
         return $this;
     }
 
+    /**
+     * Setting the payment method
+     *
+     * @param string $key
+     * @return $this
+     */
     public function setPaymentMethodFromRequest($key = "payment_method")
     {
         if ($this->request->has($key)) {
@@ -65,11 +87,24 @@ class Payment
 
     }
 
+    /**
+     * Setting the total amount
+     *
+     * @param $total
+     * @return $this
+     */
     public function setTotal($total)
     {
         $this->setting->setTotal($total);
         return $this;
     }
+
+    /**
+     * Setting the payment method
+     *
+     * @param $payment_method
+     * @return $this
+     */
 
     public function setPaymentMethod($payment_method)
     {
@@ -77,6 +112,12 @@ class Payment
         return $this;
     }
 
+    /**
+     * Setting the default redirect link
+     *
+     * @param $redirectLink
+     * @return $this
+     */
     public function setRedirectLink($redirectLink)
     {
         $this->setting->setRedirectLink($redirectLink);
@@ -84,16 +125,18 @@ class Payment
     }
 
     /**
+     * Returning the final redirect link with payment parameters
+     *
      * @return string
      * @throws Exception\NoSettingFoundException
      * @throws Exception\PaymentException
      */
-    public function pay()
+    public function redirect()
     {
-        if ($this->setting->total > 0) {
+        if ($this->setting->total > 0 && !is_null($this->setting->payment_method)) {
             $paymentGateway = PaymentFactory::factory($this);
             $paymentGateway->init();
-            return $paymentGateway->pay();
+            return $paymentGateway->preparePaymentLink();
 
         }
         return $this->setting->redirectLink . "?approval=success";

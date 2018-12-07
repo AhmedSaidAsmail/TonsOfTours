@@ -5,7 +5,7 @@
             <div class="col-md-12">
                 <div class="form-group">
                     <label>Cardholder Name*</label>
-                    <input class="form-control" name="credit[name]" required>
+                    <input class="form-control" value="Ahmed Said Asmail" name="credit[name]" required>
                 </div>
             </div>
         </div>
@@ -13,7 +13,7 @@
             <div class="col-md-12">
                 <div class="form-group">
                     <label>Credit Card Number*</label>
-                    <input class="form-control" name="credit[cc_no]" id="ccNo" required>
+                    <input class="form-control" name="credit[cc_no]" value="4000000000000002" id="ccNo" required>
                 </div>
             </div>
         </div>
@@ -47,7 +47,7 @@
             <div class="col-md-6">
                 <div class="form-group">
                     <label>CVV Number*</label>
-                    <input class="form-control" name="credit[ccv]" id="cvv" required>
+                    <input class="form-control" name="credit[ccv]" value="012" id="cvv" required>
                 </div>
             </div>
         </div>

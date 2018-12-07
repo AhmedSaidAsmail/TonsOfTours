@@ -150,5 +150,19 @@ class CartCollection
         $request->session()->put($this->cart_name, $this);
     }
 
+    /**
+     * Converting stored CartItem to array
+     *
+     * @return array
+     */
+    public function toArray()
+    {
+
+        return array_map(function ($item) {
+            /** @var CartItem $item */
+            return $item->toArray();
+        }, array_values($this->items));
+    }
+
 
 }

@@ -121,10 +121,11 @@ class CartController extends Controller
         $checkout = new Checkout($request);
         $checkout->validator();
         try {
-            $checkout->make();
+            $checkout->makeCheckout();
             return redirect()->to($checkout->link);
         } catch (\Exception $e) {
-            return redirect()->back()->with('failure', $e->getMessage());
+            //return redirect()->back()->with('failure', $e->getMessage());
+            return $e->getMessage();
         }
 
     }

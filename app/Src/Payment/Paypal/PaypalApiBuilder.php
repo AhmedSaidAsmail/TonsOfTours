@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Src\Payment\Paypal;
+namespace Payment\Paypal;
 
-use App\Src\Payment\Exception\PaymentException;
+use Payment\Exception\PaymentException;
 use PayPal\Rest\ApiContext;
 use PayPal\Auth\OAuthTokenCredential;
 use PayPal\Api\Payer;
@@ -54,7 +54,6 @@ class PaypalApiBuilder
     /**
      * PaypalApiBuilder constructor.
      * @param Paypal $paypal_instance
-     * @return void
      */
     public function __construct(Paypal $paypal_instance)
     {
@@ -65,7 +64,7 @@ class PaypalApiBuilder
         $this->payment = new Payment();
         $this->redirectUrls = new RedirectUrls();
         $this->paypal_instance = $paypal_instance;
-        $this->responseLink = new PaypalResponseLink($paypal_instance->redirectLink);
+        $this->responseLink = new PaypalResponseLink($paypal_instance->payment->redirectLink);
     }
 
     /**
@@ -76,7 +75,8 @@ class PaypalApiBuilder
 
     private function setApi()
     {
-        $this->api = new ApiContext(new OAuthTokenCredential($this->paypal_instance->client_id, $this->paypal_instance->secret));
+        $this->api = new ApiContext(new OAuthTokenCredential($this->paypal_instance->paypal_setting['client_id'],
+            $this->paypal_instance->paypal_setting['secret']));
         return $this;
     }
 
@@ -89,7 +89,7 @@ class PaypalApiBuilder
     private function setConfig(ApiContext $api)
     {
         $api->setConfig([
-            'mode' => $this->paypal_instance->sandbox ? "sandbox" : "live",
+            'mode' => $this->paypal_instance->paypal_setting['sandbox'] ? "sandbox" : "live",
             'http.ConnectionTimeOut' => 30,
             'log.LogEnabled' => false,
             'log.LogFileName' => '',
@@ -119,7 +119,7 @@ class PaypalApiBuilder
     {
         $this->details->setTax('0.00')
             ->setShipping('0.00')
-            ->setSubtotal($this->paypal_instance->total);
+            ->setSubtotal($this->paypal_instance->payment->total);
         return $this;
     }
 
@@ -130,8 +130,8 @@ class PaypalApiBuilder
      */
     private function setAmount()
     {
-        $this->amount->setTotal($this->paypal_instance->total)
-            ->setCurrency($this->paypal_instance->currency)
+        $this->amount->setTotal($this->paypal_instance->payment->total)
+            ->setCurrency($this->paypal_instance->payment->currency)
             ->setDetails($this->details);
         return $this;
     }
@@ -144,7 +144,7 @@ class PaypalApiBuilder
     private function setTransaction()
     {
         $this->transaction->setAmount($this->amount)
-            ->setDescription($this->paypal_instance->description);
+            ->setDescription($this->paypal_instance->paypal_setting['description']);
         return $this;
     }
 
@@ -206,7 +206,7 @@ class PaypalApiBuilder
     /**
      * @throws PaymentException
      */
-    public function build()
+    public function preparePaymentLink()
     {
         try {
             $this->init();

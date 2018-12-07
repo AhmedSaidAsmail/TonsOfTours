@@ -1,11 +1,17 @@
 <?php
 
-namespace Payment\TwoCheckOut;
+namespace Payment\TwoCheckout;
 
 use Payment\ResponseLink;
 
-class CheckoutResponseLink extends ResponseLink
+class GatewayResponseLink extends ResponseLink
 {
+    /**
+     * Preparing 2Checkout Redirect link
+     *
+     * @param array $response
+     * @return $this
+     */
     public function makeResponseQueries(array $response = [])
     {
         $query = null;
