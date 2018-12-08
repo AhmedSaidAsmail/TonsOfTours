@@ -7,7 +7,7 @@
             <span class="login-header-span">
             {{translate('Log_in_to_add_things_to_your_Wish_List_and_access_your_bookings_from_any_device.')}}
             </span>
-            <a href="{{facebookLink()}}" class="btn btn-block btn-social btn-facebook">
+            <a href="{{route('customer.facebook.redirect')}}" class="btn btn-block btn-social btn-facebook">
                 <i class="fa fa-facebook"></i> {{translate('Log_in_with_Facebook')}}
             </a>
             <a class="btn btn-block btn-social btn-default">

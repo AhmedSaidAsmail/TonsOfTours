@@ -5,12 +5,11 @@ namespace App\Http\Controllers\FrontEnd;
 use App\Http\Controllers\Admin\ReservationController;
 use App\Mail\CustomerNotificationMail;
 use App\Models\Item;
-use App\Src\Cart\Cart;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Mail;
-use Shopping\Cart\CartManager;
+
 
 class CartController extends Controller
 {
@@ -109,6 +108,9 @@ class CartController extends Controller
     public function checkout()
     {
         $cart = shoppingCart()->fetch('items');
+        if ($cart->quantity <= 0) {
+            return redirect()->route('cart.index');
+        }
         return view('frontEnd.cart.checkout', ['cart' => $cart]);
     }
 
@@ -143,7 +145,7 @@ class CartController extends Controller
             try {
                 $reservation = App::make(ReservationController::class)->update($request, $reservation_id,
                     $reservation_unique_id);
-                (new Cart($request))->destroy();
+                shoppingCart()->destroy('items');
                 Mail::to($reservation->customer->email)
                     ->send(new CustomerNotificationMail($reservation, $request));
                 return view('frontEnd.cart.success', ['reservation' => $reservation]);

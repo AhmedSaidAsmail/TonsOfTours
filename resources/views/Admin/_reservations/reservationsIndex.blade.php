@@ -48,7 +48,7 @@
 
                                 @foreach($reservations as $reservation)
                                     <tr>
-                                        <td>{{date('M d, Y',strtotime($reservation->date))}}</td>
+                                        <td>{{date('M d, Y h:i A',strtotime($reservation->date))}}</td>
                                         <td>{{$reservation->customer->name}}</td>
                                         <td>{{$reservation->customer->email}}</td>
                                         <td>{{$reservation->items->count()}}</td>

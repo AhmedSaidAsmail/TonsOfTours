@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="icon" type="image/png" href="{{asset('images/favicon.png')}}">
     @yield('meta_tags')
     <link rel="stylesheet" href="{{asset('css/bootstrap.min.css')}}">
     <link rel="stylesheet" href="{{asset('css/animate.min.css')}}">
@@ -30,7 +31,9 @@
                     <ul>
                         @foreach($footerChunk as $footer)
                             <li>
-                                <a href="{{ route('topics.show',['topicsName'=>urlencode($footer->name)]) }}">{{ $footer->footer_link }} </a>
+                                <a href="{{ route('home.topic.show',['name'=>$footer->name]) }}">
+                                    {{ $footer->footer_link }}
+                                </a>
                             </li>
                         @endforeach
                     </ul>

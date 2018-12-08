@@ -7,9 +7,6 @@ use Illuminate\Http\Request;
 
 class FacebookSdk
 {
-    const FACEBOOK_APP_ID = '1559671154134765';
-
-    const FACEBOOK_APP_SECRET = '462717d9b0c347b5f00d1eb146145a8e';
 
     /**
      * @return string
@@ -20,8 +17,8 @@ class FacebookSdk
             $fb = self::getFb();
             $helper = $fb->getRedirectLoginHelper();
             $permissions = ['email'];
-            $loginUrl = $helper->getLoginUrl(route('customer.login.facebook'), $permissions);
-            return htmlspecialchars($loginUrl);
+            $loginUrl = $helper->getLoginUrl(route('customer.facebook.login'), $permissions);
+            return $loginUrl;
         } catch (\Exception $ex) {
             return "#";
         }
@@ -35,8 +32,8 @@ class FacebookSdk
     private static function getFb()
     {
         $fb = new Facebook([
-            'app_id' => self::FACEBOOK_APP_ID,
-            'app_secret' => self::FACEBOOK_APP_SECRET,
+            'app_id' => env('FACEBOOK_APP_ID'),
+            'app_secret' => env('FACEBOOK_APP_SECRET'),
             'default_graph_version' => 'v2.2',
         ]);
         return $fb;

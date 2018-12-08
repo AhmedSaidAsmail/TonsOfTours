@@ -5,10 +5,10 @@ namespace App\Http\Controllers\FrontEnd;
 use App\Models\Category;
 use App\Models\Item;
 use App\Models\MainCategory;
+use App\Models\Topic;
 use App\Src\WishList\WishList;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use Illuminate\Support\Facades\App;
 
 class FrontEndController extends Controller
 {
@@ -24,7 +24,6 @@ class FrontEndController extends Controller
             ->limit(12)
             ->get();
         return view('frontEnd.welcome', ['topItems' => $topItems]);
-//        dd(payment()->twoCheckout->getAllAttr());
     }
 
     /**
@@ -58,7 +57,8 @@ class FrontEndController extends Controller
             ->orderBy('items.arrangement', 'DESC')
             ->limit(3)
             ->get();
-        return view('frontEnd.mainCategory', ['mainCategory' => $mainCategory, 'name' => $name, 'topItems' => $topItems]);
+        return view('frontEnd.mainCategory',
+            ['mainCategory' => $mainCategory, 'name' => $name, 'topItems' => $topItems]);
 
     }
 
@@ -74,9 +74,18 @@ class FrontEndController extends Controller
         $category = Category::find($id);
         visitors($category->title);
         $otherCategories = Category::where('id', '!=', $id)->get();
-        return view('frontEnd.category', ['name' => $name, 'category' => $category, 'otherCategories' => $otherCategories]);
+        return view('frontEnd.category',
+            ['name' => $name, 'category' => $category, 'otherCategories' => $otherCategories]);
     }
 
+    /**
+     * Displaying Item Details from storage
+     *
+     * @param $category
+     * @param $name
+     * @param $id
+     * @return \Illuminate\Http\Response
+     */
     public function itemShow($category, $name, $id)
     {
         $item = Item::findOrFail($id);
@@ -88,5 +97,14 @@ class FrontEndController extends Controller
             'item' => $item,
             'is_wish_list' => $wishList->check($id)
         ]);
+    }
+
+    public function topicShow($name)
+    {
+        if (strtolower($name) == "home") {
+            return redirect()->route('home');
+        }
+        $topic = Topic::where('name', $name)->first();
+        return view('frontEnd.topic', ['topic' => $topic]);
     }
 }

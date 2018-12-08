@@ -6,42 +6,32 @@ Route::get('/main/{name}/{id}',
     ['uses' => 'FrontEnd\FrontEndController@mainCategoryShow'])->name('home.mainCategory.show');
 Route::get('category/{name}/{id}', ['uses' => 'FrontEnd\FrontEndController@categoryShow'])->name('home.category.show');
 Route::get('/{category}/tour/{name}/{id}', ['uses' => 'FrontEnd\FrontEndController@itemShow'])->name('home.item.show');
-Route::post('cart/check/availability/{id}',
-    ['uses' => 'FrontEnd\CartController@checkAvailability'])->name('cart.availability');
-Route::post('cart/store', ['uses' => 'FrontEnd\CartController@store'])->name('cart.store');
+Route::get('/topics/{name}', ['uses' => 'FrontEnd\FrontEndController@topicShow'])->name('home.topic.show');
+Route::post('cart/check/availability/{id}', ['uses' => 'FrontEnd\CartController@checkAvailability'])
+    ->name('cart.availability');
+// Shopping Cart
 Route::get('cart/all', ['uses' => 'FrontEnd\CartController@index'])->name('cart.index');
+Route::post('cart/store', ['uses' => 'FrontEnd\CartController@store'])->name('cart.store');
+Route::get('cart/remove/{collection}/{key}', 'FrontEnd\CartController@itemRemove')->name('cart.item.remove');
+// Shopping Cart Checkout
 Route::get('cart/checkout', ['uses' => 'FrontEnd\CartController@checkout'])->name('cart.checkout');
 Route::post('cart/checkout', ['uses' => 'FrontEnd\CartController@checkoutDone'])->name('cart.checkout');
-Route::get('cart/checkout/response/{reservation_id}/{reservation_unique_id}',
-    ['uses' => 'FrontEnd\CartController@checkoutResponse'])->name('cart.checkout.response');
-Route::get('cart/remove/{collection}/{key}',
-    ['uses' => 'FrontEnd\CartController@itemRemove'])->name('cart.item.remove');
-Route::get('wish-list/store/{item_id}', 'FrontEnd\WishListController@store')->name('wish-list.store');
+Route::get('cart/checkout/response/{res_id}/{unique_id}', 'FrontEnd\CartController@checkoutResponse')
+    ->name('cart.checkout.response');
+// Wish list
 Route::get('wish-list/all', 'FrontEnd\WishListController@index')->name('wish-list.index');
+Route::get('wish-list/store/{item_id}', 'FrontEnd\WishListController@store')->name('wish-list.store');
 Route::get('wish-list/remove/{id}', 'FrontEnd\WishListController@destroy')->name('wish-list.destroy');
-
-//Route::get('/allTours', ['uses' => 'Web\HomeController@allTours'])->name('allTours.show');
-Route::get('/topics/{topicsName}', ['uses' => 'Web\HomeController@topicsShow'])->name('topics.show');
-
-//Route::post('/add-to-cart/{id}', ['uses' => 'Web\HomeController@addToCart'])->name('add.to.cart');
-//Route::post('/add-transfer-to-cart', ['uses' => 'Web\HomeController@addTransferToCart'])->name('add.transfer.to.cart');
-//Route::get('my-cart', ['uses' => 'Web\HomeController@cartShow'])->name('cart');
-//route::get('/my-cart/remove/{id}', ['uses' => 'Web\HomeController@removeFromCart'])->name('remove.from.cart');
-//Route::get('/my-cart/check-out', ['uses' => 'Web\HomeController@checkOut'])->name('Web.checkout');
-//Route::post('/my-cart/fianlCheckOut', ['uses' => 'Web\HomeController@finalCheckOut'])->name('finalCheckOut');
-//Route::get('/search-items/result', ['uses' => 'Web\HomeController@searchItems'])->name('Web.searchItems');
-//Route::get('/search-transfer-dist', ['uses' => 'Web\HomeController@searchDist'])->name('searchDist');
-//Route::get('/booking-done', ['uses' => 'Web\HomeController@bookingDone'])->name('bookingDone');
-//Route::get('/getDays/{id}', ['uses' => 'Web\HomeController@getDays'])->name('getDays');
-//Route::get('/hotDeals', ['uses' => 'Web\HomeController@hotDealsShow'])->name('hotDeals');
-//Route::get('/transfer', ['uses' => 'Web\HomeController@transferShow'])->name('transfersShow');
-// customer login
+// customer login and Register
 Route::get('/customer/register', 'AuthCustomer\RegisterController@showRegistrationForm')->name('customer.register');
 Route::post('/customer/register', 'AuthCustomer\RegisterController@register')->name('customer.register');
 Route::post('/customer/login', 'AuthCustomer\LoginController@login')->name('customer.login');
-Route::get('/customer/login/social/facebook',
-    'AuthCustomer\LoginController@facebookLogin')->name('customer.login.facebook');
+Route::get('/customer/login/social/facebook/redirect', 'AuthCustomer\LoginController@facebookRedirect')
+    ->name('customer.facebook.redirect');
+Route::get('_oauth/facebook', 'AuthCustomer\LoginController@facebookLogin')
+    ->name('customer.facebook.login');
 Route::get('/customer/logout', 'AuthCustomer\LoginController@logout')->name('customer.logout');
+// Customers Dashboard
 Route::group(['middleware' => 'auth:customer'], function () {
     Route::get('/customer/settings', 'FrontEnd\CustomerController@showSetting')->name('customer.setting');
     Route::put('/customer/settings', 'FrontEnd\CustomerController@updateSetting')->name('customer.setting');
@@ -49,6 +39,7 @@ Route::group(['middleware' => 'auth:customer'], function () {
     Route::put('/customer/password', 'FrontEnd\CustomerController@updatePassword')->name('customer.password');
     Route::get('/customer/bookings', 'FrontEnd\CustomerController@showbookings')->name('customer.booking');
 });
+// Customer Reset Password
 Route::get('/customer/password/reset',
     'AuthCustomer\ResetPasswordController@passwordReset')->name('customer.password.reset');
 Route::post('/customer/password/reset',
@@ -59,7 +50,7 @@ Route::get('/customer/password/reset/email/{email}/{unique_id}',
     'AuthCustomer\ResetPasswordController@emailBack')->name('customer.password.email.back');
 
 
-Route::get('/profile/my-bookings', 'Auth_Customer\ProfileController@bookings')->name('customer.bookings');
+//Route::get('/profile/my-bookings', 'Auth_Customer\ProfileController@bookings')->name('customer.bookings');
 //Route::get('/profile/my-bookings/items/{reservation_id}', 'Auth_Customer\ProfileController@bookingsItems')->name('customer.bookings.items');
 // end customers login
 
@@ -85,23 +76,17 @@ Route::group(['prefix' => 'admin', 'middleware' => 'auth:web'], function () {
     Route::resource('/Item/{itemID}/ItemGallery', 'Admin\ItemGalleryController',
         ['except' => ['show', 'edit', 'update', 'destroy']]);
     Route::delete('/Item/{itemID}/ItemGallery', 'Admin\ItemGalleryController@destroy')->name('ItemGallery.destroy');
-    //topics
-    Route::resource('/Topics', 'Admin\TopicsController');
-    Route::resource('/Topics/{TopicId}/Gallery', 'Admin\GalleryController',
-        ['except' => ['show', 'edit', 'update', 'destroy']]);
     Route::delete('/Item/{itemID}/Gallery', 'Admin\GalleryController@destroy')->name('Gallery.destroy');
-//    Route::resource('/Articles', 'Admin\ArticlesController');
-//    Route::resource('/leftsSide', 'Admin\LeftSideController');
+
+
+    Route::resource('/topics', 'Admin\TopicsController', ['expect' => ['show']]);
     Route::resource('/vars', 'Admin\VarsController');
-//    Route::resource('/Transfers', 'Admin\TransferController');
     Route::resource('/Paypal', 'Admin\PaypalController');
     Route::resource('/reservation', 'Admin\ReservationController', ['expect' => ['edit', 'destroy']]);
     Route::get('/reservation/items/archive', 'Admin\ReservationController@indexArchive')->name('reservation.archive');
     Route::put('/reservation/items/archive', 'Admin\ReservationController@archive')->name('reservation.archive');
     Route::get('/profile/change-details', 'Admin\ProfileController@showProfileForm')->name('admin.profile.edit');
     Route::put('/profile/change-details', 'Admin\ProfileController@update')->name('admin.profile.update');
-//    Route::get('settings/payment', 'Admin\PaymentController@index')->name('setting.payment');
-
     Route::resource('settings/payment/payment-setting', 'Admin\PaymentSettingController', [
         'as' => 'setting.payment',
         'except' => ['create', 'edit', 'show']

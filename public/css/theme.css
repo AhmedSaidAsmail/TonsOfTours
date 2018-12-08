@@ -762,8 +762,9 @@ span.cart-header-total > label {
     box-shadow: 2px 2px 10px #000;
     font-family: 'Raleway', sans-serif;
 }
+
 @media screen and (max-width: 797px) {
-    .login-container{
+    .login-container {
         width: 90%;
     }
 }
@@ -1394,4 +1395,22 @@ ul.checkout-notify > li > span {
     display: block;
     font-weight: 700;
     font-size: 17px;
+}
+
+.topics-holder {
+    margin: 30px -15px 150px -15px;
+    font-family: 'Lato', sans-serif;
+    font-size: 15px;
+}
+
+.topics-holder > div > h1 {
+    font-size: 27px;
+    font-weight: 900;
+}
+
+span.last-updated {
+    display: block;
+    margin-bottom: 25px;
+    color: var(--carrot);
+    font-size: 13px;
 }

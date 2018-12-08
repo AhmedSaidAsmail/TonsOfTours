@@ -21,10 +21,8 @@ class CreateTopicsTable extends Migration {
             $table->text('icon')->nullable();
             $table->boolean('top')->default(0);
             $table->boolean('footer')->default(0);
-            $table->boolean('sidebar')->default(0);
             $table->string('top_link')->nullable();
             $table->string('footer_link')->nullable();
-            $table->string('sidebar_link')->nullable();
             $table->integer('arrangement')->default(0);
             $table->timestamps();
         });

@@ -65,7 +65,16 @@ class LoginController extends Controller
         }
         return redirect()
             ->back()
-            ->with('failure', sprintf('The email or password you entered isn\'t correct. If you\'ve forgotten your password, please reset it. <a href="%s">Click here</a>', route('customer.password.reset')));
+            ->with('failure',
+                sprintf('The email or password you entered isn\'t correct. If you\'ve forgotten your password, please reset it. <a href="%s">Click here</a>',
+                    route('customer.password.reset')));
+    }
+
+    public function facebookRedirect(Request $request)
+    {
+        $request->session()->put('current_link', url()->previous());
+        return redirect()->to(FacebookSdk::linkGeneration());
+
     }
 
     /**
@@ -84,7 +93,7 @@ class LoginController extends Controller
 
         if (Auth::guard('customer')->loginUsingId($id)) {
             $this->syncWishLists();
-            return redirect()->back();
+            return redirect()->to($request->session()->get('current_link'));
         }
         return redirect()->home()->with('failure', 'Oops! Something went wrong');
     }

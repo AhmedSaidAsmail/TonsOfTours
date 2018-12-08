@@ -167,13 +167,13 @@
                         <i class="fa fa-users"></i> Visitors
                     </a>
                 </li>
-                <li class="treeview">
+                <li class="treeview{{isset($active) && $active=='topics'?' active':''}}">
                     <a href="#">
                         <i class="fa fa-laptop"></i> <span>Topics</span>
                         <span class="pull-right-container"> <i class="fa fa-angle-left pull-right"></i> </span>
                     </a>
                     <ul class="treeview-menu">
-                        <li><a href="{{ route('Topics.index') }}"><i class="fa fa-circle-o"></i> Topics Manger</a></li>
+                        <li><a href="{{ route('topics.index') }}"><i class="fa fa-circle-o"></i> Topics Manger</a></li>
                     </ul>
                 </li>
                 <li class="treeview">
@@ -210,9 +210,12 @@
                                 <i class="fa fa-circle-o"></i> Payment Settings
                             </a>
                         </li>
-                        <li><a href="{{ route('Paypal.index') }}"><i class="fa fa-circle-o"></i>PayPal Settings</a></li>
                         </li>
-                        <li><a href="{{ route('vars.index') }}"><i class="fa fa-circle-o"></i>Languages</a></li>
+                        <li>
+                            <a href="{{ route('vars.index') }}">
+                                <i class="fa fa-circle-o"></i>Languages
+                            </a>
+                        </li>
 
                     </ul>
                 </li>
@@ -220,19 +223,14 @@
 
             </ul>
         </section>
-        <!-- /.sidebar -->
     </aside>
-    <!-- Body Content -->
 @yield('content')
-<!-- end Body Content -->
-    <!-- footer -->
     <footer class="main-footer">
         <div class="pull-right hidden-xs"><b>Version</b> 2.3.7</div>
         <strong>Copyright &copy; 2016 <a href="mialto:info.matrixcode@gmail.com"> Matrix Code Micro
                 Systems</a>.</strong> All rights
         reserved.
     </footer>
-    <!-- end footer -->
     <div class="control-sidebar-bg"></div>
 </div>
 <script src="{{asset('js/jquery-2.2.3.min.js')}}"></script>

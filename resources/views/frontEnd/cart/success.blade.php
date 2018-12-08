@@ -21,11 +21,11 @@
                     <div class="row">
                         <div class="col-md-6">
                             <span>{{translate('Total Amount')}}:</span>
-                            {{$reservation->total}} {{translate('$')}}
+                            {{$reservation->total}} {{payment()->currency_symbol}}
                         </div>
                         <div class="col-md-6">
                             <span>{{translate('Deposit Amount')}}:</span>
-                            {{$reservation->deposit}} {{translate('$')}}
+                            {{$reservation->deposit}} {{payment()->currency_symbol}}
                         </div>
                     </div>
                     @if(!is_null($reservation->paymentId))

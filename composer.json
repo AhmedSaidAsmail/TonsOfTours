@@ -29,8 +29,8 @@
     ],
     "psr-4": {
       "App\\": "app/",
-      "Payment\\": "app/Src/Payment",
-      "Shopping\\Cart\\": "app/Src/newCart"
+      "Payment\\": "app/Src/payment",
+      "Shopping\\Cart\\": "app/Src/cart"
     },
     "files": [
       "app/helpers.php"
