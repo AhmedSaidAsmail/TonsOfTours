@@ -10,6 +10,7 @@ use App\Models\Item;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 use App\Src\Images\Image;
+use App\Models\Image as Gallery;
 
 class ItemsController extends Controller
 {
@@ -60,7 +61,7 @@ class ItemsController extends Controller
             $item = Item::create($data);
             $item->exploration()->create($data['item']['exploration']);
             $item->price()->create($data['item']['price']);
-            $this->itemDetailsResolver($item,'details',$data['details']);
+            $this->itemDetailsResolver($item, 'details', $data['details']);
             $this->itemCreateMany($item->includes(), $data['item'], 'includes');
             $this->itemCreateMany($item->excludes(), $data['item'], 'excludes');
             $this->itemCreateMany($item->packages(), $data['item'], 'packages');
@@ -89,8 +90,11 @@ class ItemsController extends Controller
     public function edit($id)
     {
         $item = Item::find($id);
-        return view('Admin._items.itemsEdit', ['item' => $item, 'active' => 'item']);
-//        dd($item->price);
+        $item_images_id = array_column($item->images->toArray(), 'id');
+        $gallery = Gallery::all();
+        return view('Admin._items.itemsEdit',
+            ['item' => $item, 'gallery' => $gallery, 'item_images_id' => $item_images_id, 'active' => 'item']);
+
     }
 
     /**
@@ -103,6 +107,7 @@ class ItemsController extends Controller
         DB::beginTransaction();
         $item = Item::findOrFail($id);
         $data = $request->all();
+        $gallery = $request->has('gallery') ? $request->get('gallery') : [];
         $this->validator($data);
         $request->request->add(['path' => self::path, 'current' => $item->img]);
         /** @var  Image $imgResolver */
@@ -112,10 +117,11 @@ class ItemsController extends Controller
             $item->update($data);
             $item->exploration()->update($data['item']['exploration']);
             $item->price()->update($data['item']['price']);
-            $this->itemDetailsResolver($item,'details',$data['details']);
+            $this->itemDetailsResolver($item, 'details', $data['details']);
             syncHasMany($item->includes(), $data['item'], 'includes')->exec();
             syncHasMany($item->excludes(), $data['item'], 'excludes')->exec();
             syncHasMany($item->packages(), $data['item'], 'packages')->exec();
+            $item->images()->sync($gallery);
             DB::commit();
         } catch (\Exception $e) {
             DB::rollback();
@@ -189,7 +195,7 @@ class ItemsController extends Controller
             ]),
             $this->prepareAllRules($data['item'], 'item', 'packages', [
                 'min' => 'required|integer|min:1',
-                'max' => 'required|integer|min:2',
+                'max' => 'required|integer|min:1',
                 'st_price' => 'required|integer|min:1',
                 'sec_price' => 'required|integer|min:0',
             ])))->validate();

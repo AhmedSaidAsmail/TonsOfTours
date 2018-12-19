@@ -17,12 +17,13 @@
                     <span>{{translate('More_photos')}}</span>
                 </a>
                 <div class="item-gallery">
-                    {{--@foreach($item->gallery as $img)--}}
-                        {{--<a href="{{asset('images/gallery/'.$img->img)}}" data-toggle="lightbox"--}}
-                           {{--data-gallery="{{$item->title}}">--}}
-                            {{--#--}}
-                        {{--</a>--}}
-                    {{--@endforeach--}}
+                    @foreach($item->images as $img)
+                        <a href="{{asset('images/gallery/'.$img->image)}}" data-toggle="lightbox"
+                           title="{{$img->title}}"
+                           data-gallery="{{$item->title}}">
+                            #
+                        </a>
+                    @endforeach
                 </div>
                 <ul class="list-inline dir">
                     <?php
@@ -125,7 +126,7 @@
                             <div class="row">
                                 <div class="col-md-5 price-references">
                                     <div class="price-package">
-                                        <span class="only">{{translate('Price_per_Pax')}}</span>
+                                        <span class="only">{{translate('Price_per_Person')}}</span>
                                     </div>
                                 </div>
                                 <div class="col-md-7">
@@ -145,11 +146,11 @@
                                     <div class="row">
                                         <div class="col-md-5 price-references">
                                             <div class="price-package">
-                                                <span>{{translate('Price_per_Pax')}}</span>
+                                                <span>{{translate('Price_per_Person')}}</span>
                                                 <span>
                                                     (
                                                     {{translate('from')}} <b>{{$package->min}}</b> {{'to'}}
-                                                    <b>{{$package->max}}</b> {{translate('pax')}}
+                                                    <b>{{$package->max}}</b> {{translate('person')}}
                                                     )
                                                 </span>
                                             </div>

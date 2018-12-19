@@ -9,6 +9,7 @@ use App\Models\Topic;
 use App\Src\WishList\WishList;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class FrontEndController extends Controller
 {
@@ -101,10 +102,19 @@ class FrontEndController extends Controller
 
     public function topicShow($name)
     {
-        if (strtolower($name) == "home") {
-            return redirect()->route('home');
-        }
         $topic = Topic::where('name', $name)->first();
-        return view('frontEnd.topic', ['topic' => $topic]);
+        switch (true) {
+            case strtolower($name) == "home":
+                return redirect()->route('home');
+            case !is_null($topic):
+                return view('frontEnd.topic', ['topic' => $topic]);
+            default:
+                throw new NotFoundHttpException();
+        }
+    }
+
+    public function notFound()
+    {
+        return view('frontEnd.error404');
     }
 }

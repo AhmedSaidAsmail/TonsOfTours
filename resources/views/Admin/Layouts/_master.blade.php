@@ -160,6 +160,11 @@
                                 <i class="fa fa-circle-o"></i> Items Manager
                             </a>
                         </li>
+                        <li>
+                            <a href="{{route('images.index')}}">
+                                <i class="fa fa-circle-o"></i> Gallery
+                            </a>
+                        </li>
                     </ul>
                 </li>
                 <li class="treeview">

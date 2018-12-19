@@ -133,3 +133,12 @@ if (!function_exists('shoppingCart')) {
         return App::make('cart');
     }
 }
+if (!function_exists('upload')) {
+    /**
+     * @return \Files\Upload\Upload
+     */
+    function upload()
+    {
+        return App::make('upload');
+    }
+}

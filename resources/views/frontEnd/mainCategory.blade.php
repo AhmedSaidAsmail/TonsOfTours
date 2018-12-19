@@ -32,7 +32,8 @@
                     $link = route('home.item.show', [
                         'category' => urlencodeLink($item->category->name),
                         'name' => urlencodeLink($item->name),
-                        'id' => $item->id]);
+                        'id' => $item->id
+                    ]);
                     ?>
                     <div class="col-md-4">
                         <div class="item-container">
@@ -55,7 +56,9 @@
                             </div>
                             <div class="item-container-img">
                                 <a href="{{$link}}">
-                                    <img src="{{asset('images/items/thumbMd/'.$item->img)}}" alt="{{$item->title}}">
+                                    <img class="lazy" src=""
+                                         data-src="{{asset('images/items/thumbMd/'.$item->img)}}"
+                                         alt="{{$item->title}}">
                                 </a>
                             </div>
                             <div class="item-container-text">
@@ -79,7 +82,8 @@
                     <div class="col-md-6">
                         <a href="{{route('home.category.show',['city'=>urlencodeLink($category->name),'id'=>$category->id])}}">
                             <div class="item-holder-first">
-                                <img class="aspect-img" src="{{asset('images/categories/thumbMd/'.$category->img)}}"
+                                <img class="aspect-img lazy" src=""
+                                     data-src="{{asset('images/categories/thumbMd/'.$category->img)}}"
                                      alt="{{$category->title}}">
                             </div>
                             <h2 class="item-title">{{$category->title}}</h2>
@@ -93,7 +97,7 @@
                         <div class="col-md-3">
                             <a href="{{route('home.category.show',['city'=>urlencodeLink($category->name),'id'=>$category->id])}}">
                                 <div class="item-holder-second">
-                                    <img class="aspect-img" src="{{asset('images/categories/thumbMd/'.$category->img)}}"
+                                    <img class="aspect-img lazy" src="" data-src="{{asset('images/categories/thumbMd/'.$category->img)}}"
                                          alt="{{$category->title}}">
                                 </div>
                                 <h2 class="item-title">{{$category->title}}</h2>

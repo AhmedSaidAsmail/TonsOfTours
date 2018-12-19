@@ -41,7 +41,8 @@
                         $link = route('home.item.show', [
                             'category' => urlencodeLink($item->category->name),
                             'name' => urlencodeLink($item->name),
-                            'id' => $item->id]);
+                            'id' => $item->id
+                        ]);
                         ?>
                         <div class="col-md-4">
                             <div class="item-container">
@@ -64,7 +65,9 @@
                                 </div>
                                 <div class="item-container-img">
                                     <a href="{{$link}}">
-                                        <img src="{{asset('images/items/thumbMd/'.$item->img)}}" alt="{{$item->title}}">
+                                        <img class="lazy" src=""
+                                             data-src="{{asset('images/items/thumbMd/'.$item->img)}}"
+                                             alt="{{$item->title}}">
                                     </a>
                                 </div>
                                 <div class="item-container-text">

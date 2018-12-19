@@ -96,6 +96,8 @@
 </div>
 <script src="https://code.jquery.com/jquery-2.2.4.min.js"></script>
 <script src="{{asset('js/bootstrap.min.js')}}"></script>
+<script src="{{asset('js/yall.js')}}"></script>
+<script>document.addEventListener("DOMContentLoaded", yall);</script>
 <script>
     $(".main-nav-lunch").on('click', function () {
         var parent = $(this).closest('.mobile-header');

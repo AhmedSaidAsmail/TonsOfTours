@@ -1,5 +1,5 @@
 <?php
-//Route::get('/error404', ['uses' => 'Web\HomeController@error404'])->name('error.404');
+Route::get('/error404', 'FrontEnd\FrontEndController@notFound')->name('home.error.404');
 Route::get('/', ['uses' => 'FrontEnd\FrontEndController@welcomePage'])->name('home');
 Route::get('/search/tours', ['uses' => 'FrontEnd\FrontEndController@searchTours'])->name('home.search');
 Route::get('/main/{name}/{id}',
@@ -50,7 +50,7 @@ Route::get('/customer/password/reset/email/{email}/{unique_id}',
     'AuthCustomer\ResetPasswordController@emailBack')->name('customer.password.email.back');
 
 
-//Route::get('/profile/my-bookings', 'Auth_Customer\ProfileController@bookings')->name('customer.bookings');
+Route::get('/profile/my-bookings', 'Auth_Customer\ProfileController@bookings')->name('customer.bookings');
 //Route::get('/profile/my-bookings/items/{reservation_id}', 'Auth_Customer\ProfileController@bookingsItems')->name('customer.bookings.items');
 // end customers login
 
@@ -70,6 +70,8 @@ Route::group(['prefix' => 'admin', 'middleware' => 'auth:web'], function () {
     Route::resource('/mainCategory', 'Admin\MainCategoriesController', ['expect' => ['create', 'show']]);
     Route::resource('category', 'Admin\CategoriesController', ['except' => ['create', 'show']]);
     Route::resource('/item', 'Admin\ItemsController');
+    Route::delete('images/destroy','Admin\ImagesController@destroy')->name('images.destroy');
+    Route::resource('images','Admin\ImagesController',['except'=>'destroy']);
     Route::resource('site-visitor', 'Admin\VisitorsController', ['only' => ['index', 'destroy', 'show']]);
 
     //gallery

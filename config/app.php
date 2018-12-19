@@ -145,6 +145,7 @@ return [
          */
         Payment\PaymentServiceProvider::class,
         Shopping\Cart\CartServiceProvider::class,
+        Files\Upload\UploadServicesProvider::class,
 
         //
 

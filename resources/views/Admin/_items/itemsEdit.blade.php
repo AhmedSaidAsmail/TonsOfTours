@@ -44,6 +44,7 @@
                                     <li><a data-toggle="tab" href="#price">Price</a></li>
                                     <li><a data-toggle="tab" href="#pricePackages">Price Packages</a></li>
                                     <li><a data-toggle="tab" href="#details">Details</a></li>
+                                    <li><a data-toggle="tab" href="#gallery">Gallery</a></li>
                                 </ul>
 
                                 <div class="tab-content">
@@ -68,6 +69,8 @@
                                     {{-- Price Details--}}
                                     @include('Admin._items.layouts._itemsDetails')
                                     {{-- Price Details--}}
+                                    {{-- Items Gallery--}}
+                                    @include('Admin._items.layouts._itemsGallery')
                                 </div>
                             </div>
                         </div>
@@ -99,6 +102,7 @@
         .select2-container--default .select2-selection--single, .select2-selection .select2-selection--single {
             padding: 5px 12px;
         }
+
     </style>
 
 @endsection

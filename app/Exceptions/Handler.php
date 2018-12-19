@@ -48,12 +48,12 @@ class Handler extends ExceptionHandler
      */
     public function render($request, Exception $exception)
     {
-        if ($exception instanceof CustomException) {
-            Session::set('error505', $exception->getMessage());
-            return redirect()->route('Error505');
-        }
+//        if ($exception instanceof CustomException) {
+//            Session::set('error505', $exception->getMessage());
+//            return redirect()->route('Error505');
+//        }
         if($exception instanceof NotFoundHttpException){
-            return redirect()->route('error.404');
+            return redirect()->route('home.error.404');
         }
         return parent::render($request, $exception);
     }

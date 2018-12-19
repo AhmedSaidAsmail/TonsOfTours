@@ -56,9 +56,9 @@ class Item extends Model implements ProductInterface
         return $this->hasMany(Exclusion::class);
     }
 
-    public function gallery()
+    public function images()
     {
-        return $this->hasMany(Gallery::class);
+        return $this->belongsToMany(Image::class,'item_images');
     }
 
     public function visitors()

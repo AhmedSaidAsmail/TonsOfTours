@@ -2,42 +2,109 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Models\Image;
+use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use Illuminate\Support\Facades\Input;
 
 class ImagesController extends Controller
 {
-    protected $_path = '/images/items/';
+    const path = '\images\gallery\\';
 
-    public function update()
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function index()
     {
-        $folder = public_path() . $this->_path;
-        $images = glob($folder . "*.jpg");
-        foreach ($images as $image) {
-//            $this->convertImage($image,500,'thumbMd');
-//            $this->convertImage($image,350,'thumbSm');
+        $images = Image::all();
+        return view('Admin._items._images.index', ['images' => $images]);
+    }
+
+    /**
+     * Show the form for creating a new resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function create()
+    {
+        return view('Admin._items._images.create');
+    }
+
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @param  \Illuminate\Http\Request $request
+     * @return \Illuminate\Http\Response
+     */
+    public function store(Request $request)
+    {
+        $this->validate($request, [
+            'images.*.title' => 'required|string',
+            'images.*.image' => 'required|image'
+        ]);
+        $upload = upload();
+
+        try {
+            $upload->upload($request->all(), public_path() . self::path, 'image')
+                ->makeThumb('thumb', 300);
+            Image::insert($upload->toArray()['images']);
+        } catch (\Exception $e) {
+            $upload->rollback();
+            return redirect()->back()->with('failure', $e->getMessage());
         }
-
-
+        return redirect()->route('images.index')->with('success', 'Images has been successfully uploaded');
     }
 
-    private function ratio($width, $newWidth)
+    /**
+     * Display the specified resource.
+     *
+     * @param  int $id
+     * @return \Illuminate\Http\Response
+     */
+    public function show($id)
     {
-        return $newWidth / $width;
+        //
     }
 
-    private function convertImage($imageName, $newWidth, $path)
+    /**
+     * Show the form for editing the specified resource.
+     *
+     * @param  int $id
+     * @return \Illuminate\Http\Response
+     */
+    public function edit($id)
     {
-        $fileName = $imageName;
-        $dist = public_path() . $this->_path . $path . "/" . basename($imageName);
-        header('Content-type: image/jpg');
-        list($width, $height) = getimagesize($fileName);
-        $new_width = $newWidth;
-        $new_height = $height * $this->ratio($width, $new_width);
-        $image_p = imagecreatetruecolor($new_width, $new_height);
-        $image = imagecreatefromstring(file_get_contents($fileName));
-        imagecopyresampled($image_p, $image, 0, 0, 0, 0, $new_width, $new_height, $width, $height);
-        imagejpeg($image_p, $dist, 100);
+        //
     }
 
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param  \Illuminate\Http\Request $request
+     * @param  int $id
+     * @return \Illuminate\Http\Response
+     */
+    public function update(Request $request, $id)
+    {
+        //
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param  Request $request
+     * @return \Illuminate\Http\Response
+     */
+    public function destroy(Request $request)
+    {
+        try {
+            upload()->destroy($request->get('images'), public_path() . self::path, ['thumb']);
+            Image::whereIn('id', array_keys($request->get('images')))->delete();
+
+        } catch (\Exception $e) {
+            return redirect()->back()->with('failure', $e->getMessage());
+        }
+        return redirect()->back()->with('success', 'Images has been deleted');
+    }
 }
